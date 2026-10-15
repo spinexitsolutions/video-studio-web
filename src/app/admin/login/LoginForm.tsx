@@ -26,12 +26,12 @@ export default function LoginForm({ siteName }: { siteName: string }) {
     }
   };
 
-  const input = "w-full rounded-xl border border-white/10 bg-white/[0.04] px-4 py-3.5 text-[15px] outline-none transition focus:border-accent";
+  const input = "w-full rounded-xl border border-paper/10 bg-paper/[0.04] px-4 py-3.5 text-[15px] outline-none transition focus:border-accent";
   return (
-    <main className="relative flex min-h-screen items-center justify-center overflow-hidden bg-ink px-4">
+    <main className="on-dark relative flex min-h-screen items-center justify-center overflow-hidden bg-ink px-4">
       <div className="pointer-events-none absolute left-1/2 top-1/2 h-[600px] w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-accent/20 blur-[140px]" />
-      <motion.div initial={{ opacity: 0, y: 30, scale: 0.98 }} animate={{ opacity: 1, y: 0, scale: 1 }} transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }} className="glass relative w-full max-w-md rounded-[28px] p-8 sm:p-10">
-        <span className="grid h-14 w-14 place-items-center rounded-2xl bg-accent text-black">
+      <motion.div initial={{ opacity: 0, y: 30, scale: 0.98 }} animate={{ opacity: 1, y: 0, scale: 1 }} transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }} className="glass relative w-full max-w-md rounded-[calc(28px*var(--rs))] p-8 sm:p-10">
+        <span className="grid h-14 w-14 place-items-center rounded-2xl bg-accent text-on-accent">
           <Lock className="h-6 w-6" />
         </span>
         <h1 className="mt-6 text-2xl font-semibold tracking-tight">Sign in to {siteName}</h1>

@@ -72,7 +72,7 @@ export default function FilmStrip({ projects, eyebrow, title, brand, index }: { 
 
         <motion.div ref={track} style={{ x, skewX: skew }} className="relative flex w-max will-change-transform">
           <div className="w-5 shrink-0 sm:w-8 lg:w-12" />
-          <div className="relative rounded-md bg-[#151517] py-1 shadow-[0_30px_80px_rgba(0,0,0,.5)]">
+          <div className="on-dark relative rounded-md bg-[#151517] py-1 shadow-[0_30px_80px_rgba(0,0,0,.5)]">
             <Sprockets />
             <div className="relative flex gap-3 px-3">
               {projects.map((p, i) => (
@@ -111,7 +111,7 @@ export default function FilmStrip({ projects, eyebrow, title, brand, index }: { 
               ))}
               <Link ref={last} href="/work" className="group grid w-[60vw] shrink-0 place-items-center sm:w-[30vw] lg:w-[22vw]" data-cursor="hover">
                 <div className="text-center">
-                  <span className="mx-auto grid h-24 w-24 place-items-center rounded-full border border-white/15 transition-all duration-700 ease-expo group-hover:scale-110 group-hover:border-accent group-hover:bg-accent group-hover:text-black">
+                  <span className="mx-auto grid h-24 w-24 place-items-center rounded-full border border-paper/15 transition-all duration-700 ease-expo group-hover:scale-110 group-hover:border-accent group-hover:bg-accent group-hover:text-on-accent">
                     <ArrowUpRight className="h-7 w-7" />
                   </span>
                   <p className="mt-5 text-lg font-medium">See all work</p>
@@ -124,7 +124,7 @@ export default function FilmStrip({ projects, eyebrow, title, brand, index }: { 
         </motion.div>
 
         <div className="container-x mt-8 flex items-center gap-4">
-          <div className="h-px flex-1 bg-white/10">
+          <div className="h-px flex-1 bg-paper/10">
             <motion.div className="h-full origin-left bg-paper/70" style={{ scaleX: scrollYProgress }} />
           </div>
           <span className="font-mono text-[11px] text-muted">Scroll</span>

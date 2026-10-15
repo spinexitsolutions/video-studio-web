@@ -104,11 +104,104 @@ export interface About {
   equipment: string[];
 }
 
+export interface Theme {
+  preset: string;
+  accent: string;
+  fontSans: string;
+  fontDisplay: string;
+  fontSerif: string;
+  radius: "sharp" | "soft" | "round";
+  cameraMode: "auto" | "3d" | "static";
+  cameraFallbackImage: string;
+}
+
+export interface Integrations {
+  // Razorpay
+  razorpayEnabled: boolean;
+  razorpayKeyId: string;
+  razorpayKeySecret: string;
+  razorpayWebhookSecret: string;
+  currency: string;
+  // Cloudinary
+  cloudinaryEnabled: boolean;
+  cloudinaryCloudName: string;
+  cloudinaryApiKey: string;
+  cloudinaryApiSecret: string;
+  cloudinaryFolder: string;
+  // SMTP
+  smtpEnabled: boolean;
+  smtpHost: string;
+  smtpPort: number;
+  smtpSecure: boolean;
+  smtpUser: string;
+  smtpPass: string;
+  smtpFromName: string;
+  smtpFromEmail: string;
+  notifyEmail: string;
+  // Captcha
+  captchaProvider: "none" | "turnstile" | "recaptcha";
+  captchaSiteKey: string;
+  captchaSecretKey: string;
+  // Analytics
+  gaMeasurementId: string;
+  gtmId: string;
+  metaPixelId: string;
+  // Automation
+  webhookUrl: string;
+  // Image protection
+  protectImages: boolean;
+  optimizeUploads: boolean;
+}
+
+export interface BookingSettings {
+  depositEnabled: boolean;
+  depositType: "percent" | "fixed";
+  depositPercent: number;
+  depositFixed: number;
+  requireDeposit: boolean;
+  maxBookingsPerDay: number;
+  minNoticeDays: number;
+  closedWeekdays: string[];
+  blockedDates: string[];
+  bookingTerms: string;
+}
+
+export interface EmailTemplates {
+  footer: string;
+  bookingClientSubject: string;
+  bookingClientBody: string;
+  bookingAdminSubject: string;
+  bookingAdminBody: string;
+  paymentClientSubject: string;
+  paymentClientBody: string;
+  galleryClientSubject: string;
+  galleryClientBody: string;
+  selectionAdminSubject: string;
+  selectionAdminBody: string;
+  printOrderClientSubject: string;
+  printOrderClientBody: string;
+  invoiceClientSubject: string;
+  invoiceClientBody: string;
+  contractClientSubject: string;
+  contractClientBody: string;
+  contractSignedAdminSubject: string;
+  contractSignedAdminBody: string;
+}
+
+export interface PageMeta {
+  [key: string]: string;
+}
+
 export interface Singletons {
   settings: Settings;
   hero: Hero;
   home: Home;
   about: About;
+  theme: Theme;
+  integrations: Integrations;
+  booking: BookingSettings;
+  emails: EmailTemplates;
+  pages: PageMeta;
 }
 
 export type SingletonKey = keyof Singletons;
@@ -128,7 +221,14 @@ export type CollectionKey =
   | "bookings"
   | "subscribers"
   | "users"
-  | "media";
+  | "media"
+  | "galleries"
+  | "printProducts"
+  | "printOrders"
+  | "invoices"
+  | "contracts"
+  | "payments"
+  | "customPages";
 
 export interface Database {
   version: number;
@@ -168,6 +268,7 @@ export interface Service extends BaseDoc {
 export interface Package extends BaseDoc {
   name: string;
   price: string;
+  amount: number;
   unit: string;
   description: string;
   features: string[];
@@ -255,6 +356,9 @@ export interface Booking extends BaseDoc {
   message: string;
   status: BookingStatus;
   notes: string;
+  paymentStatus?: "none" | "pending" | "deposit_paid";
+  depositAmount?: number;
+  paymentToken?: string;
 }
 
 export interface Subscriber extends BaseDoc {
@@ -272,7 +376,128 @@ export interface Media extends BaseDoc {
   filename: string;
   originalName: string;
   url: string;
+  original?: string;
+  provider?: "local" | "cloudinary";
+  width?: number;
+  height?: number;
   size: number;
   mime: string;
   alt: string;
+}
+
+export interface Gallery extends BaseDoc {
+  title: string;
+  slug: string;
+  clientName: string;
+  clientEmail: string;
+  accessCode: string;
+  eventDate: string;
+  expiresAt: string;
+  cover: string;
+  images: string[];
+  message: string;
+  allowDownload: boolean;
+  allowFavorites: boolean;
+  allowPrints: boolean;
+  watermark: boolean;
+  maxSelections: number;
+  favorites: string[];
+  clientNote: string;
+  selectionSubmittedAt: string;
+  published: boolean;
+}
+
+export interface PrintProduct extends BaseDoc {
+  name: string;
+  size: string;
+  description: string;
+  price: number;
+  published: boolean;
+}
+
+export interface PrintItem {
+  image: string;
+  productId: string;
+  product: string;
+  qty: number;
+  price: number;
+}
+
+export interface PrintOrder extends BaseDoc {
+  galleryId: string;
+  galleryTitle: string;
+  name: string;
+  email: string;
+  phone: string;
+  address: string;
+  items: PrintItem[];
+  total: number;
+  status: "pending" | "paid" | "printing" | "shipped" | "delivered" | "cancelled";
+  paymentStatus: "unpaid" | "paid";
+  notes: string;
+}
+
+export interface LineItem {
+  description: string;
+  qty: number;
+  rate: number;
+}
+
+export interface Invoice extends BaseDoc {
+  kind: "invoice" | "quote";
+  number: string;
+  token: string;
+  clientName: string;
+  clientEmail: string;
+  clientPhone: string;
+  clientAddress: string;
+  issueDate: string;
+  dueDate: string;
+  items: LineItem[];
+  taxPercent: number;
+  discount: number;
+  notes: string;
+  status: "draft" | "sent" | "accepted" | "declined" | "paid";
+  paidAt: string;
+}
+
+export interface Contract extends BaseDoc {
+  title: string;
+  token: string;
+  clientName: string;
+  clientEmail: string;
+  eventDate: string;
+  body: string;
+  status: "draft" | "sent" | "signed";
+  signedName: string;
+  signature: string;
+  signedAt: string;
+  signedIp: string;
+}
+
+export interface Payment extends BaseDoc {
+  token: string;
+  purpose: "booking" | "invoice" | "print";
+  refId: string;
+  description: string;
+  amount: number; // in major units (e.g. rupees)
+  currency: string;
+  customerName: string;
+  customerEmail: string;
+  customerPhone: string;
+  provider: "razorpay";
+  providerOrderId: string;
+  providerPaymentId: string;
+  status: "created" | "paid" | "failed";
+  paidAt: string;
+}
+
+export interface CustomPage extends BaseDoc {
+  title: string;
+  slug: string;
+  content: string;
+  showInFooter: boolean;
+  seoTitle: string;
+  seoDescription: string;
+  published: boolean;
 }

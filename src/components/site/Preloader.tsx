@@ -44,7 +44,7 @@ export default function Preloader({ name }: { name: string }) {
     <AnimatePresence>
       {show && (
         <motion.div
-          className="fixed inset-0 z-[100] flex items-center justify-center bg-ink"
+          className="on-dark fixed inset-0 z-[100] flex items-center justify-center bg-ink"
           exit={{ clipPath: "circle(0% at 50% 50%)" }}
           initial={{ clipPath: "circle(150% at 50% 50%)" }}
           transition={{ duration: 1.1, ease: [0.76, 0, 0.24, 1] }}
@@ -71,7 +71,7 @@ export default function Preloader({ name }: { name: string }) {
               <span>{name}</span>
               <span className="text-paper tabular-nums">{String(count).padStart(3, "0")}</span>
             </div>
-            <div className="mt-4 h-px w-48 overflow-hidden bg-white/10">
+            <div className="mt-4 h-px w-48 overflow-hidden bg-paper/10">
               <div className="h-full bg-accent" style={{ width: `${count}%` }} />
             </div>
           </div>

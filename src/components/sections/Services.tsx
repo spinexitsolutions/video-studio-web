@@ -28,7 +28,7 @@ function Card({ s, i }: { s: Service; i: number }) {
 
   return (
     <motion.div
-      className={cn("group relative min-h-[280px] overflow-hidden rounded-[28px] border border-white/[0.07] bg-ink-100", LAYOUT[i % 6])}
+      className={cn("group relative min-h-[280px] overflow-hidden rounded-[calc(28px*var(--rs))] border border-paper/[0.07] bg-ink-100", LAYOUT[i % 6])}
       initial={{ opacity: 0, y: 60 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "0px 0px -10% 0px" }}
@@ -40,7 +40,7 @@ function Card({ s, i }: { s: Service; i: number }) {
       }}
       data-cursor-label="Explore"
     >
-      <Link href={`/services#${s.slug}`} className="absolute inset-0 z-20" aria-label={s.title} />
+      <Link href={`/services/${s.slug}`} className="absolute inset-0 z-20" aria-label={s.title} />
       {s.image && (
         <div className={cn("absolute inset-0 transition-opacity duration-700", big || wide ? "opacity-60 group-hover:opacity-80" : "opacity-0 group-hover:opacity-50")}>
           <Img src={s.image} alt="" className="h-full w-full scale-105 object-cover transition-transform duration-[1.6s] ease-expo group-hover:scale-100" />
@@ -50,7 +50,7 @@ function Card({ s, i }: { s: Service; i: number }) {
       <motion.div className="pointer-events-none absolute inset-0 z-10 opacity-0 transition-opacity duration-500 group-hover:opacity-100" style={{ background: spot }} />
       <div className="relative z-10 flex h-full flex-col justify-between p-7 sm:p-9">
         <div className="flex items-start justify-between">
-          <span className="grid h-12 w-12 place-items-center rounded-2xl border border-white/10 bg-white/[0.04] backdrop-blur-md transition-colors duration-500 group-hover:border-accent group-hover:bg-accent group-hover:text-black">
+          <span className="grid h-12 w-12 place-items-center rounded-2xl border border-paper/10 bg-paper/[0.04] backdrop-blur-md transition-colors duration-500 group-hover:border-accent group-hover:bg-accent group-hover:text-on-accent">
             <ServiceIcon name={s.icon} className="h-5 w-5" />
           </span>
           <span className="font-mono text-[11px] text-muted">{String(i + 1).padStart(2, "0")}</span>
@@ -60,7 +60,7 @@ function Card({ s, i }: { s: Service; i: number }) {
           <p className="mt-3 text-[15px] leading-relaxed text-paper/65">{s.summary}</p>
           <div className="mt-5 flex flex-wrap gap-2">
             {(s.features || []).slice(0, big ? 4 : 3).map((f) => (
-              <span key={f} className="rounded-full border border-white/10 bg-black/20 px-3 py-1 text-xs text-paper/70 backdrop-blur-md">
+              <span key={f} className="rounded-full border border-paper/10 bg-black/20 px-3 py-1 text-xs text-paper/70 backdrop-blur-md">
                 {f}
               </span>
             ))}
@@ -71,7 +71,7 @@ function Card({ s, i }: { s: Service; i: number }) {
                 From <span className="text-paper">{s.startingPrice}</span>
               </span>
             )}
-            <span className="grid h-10 w-10 place-items-center rounded-full border border-white/10 transition-all duration-500 group-hover:rotate-45 group-hover:border-accent group-hover:text-accent">
+            <span className="grid h-10 w-10 place-items-center rounded-full border border-paper/10 transition-all duration-500 group-hover:rotate-45 group-hover:border-accent group-hover:text-accent">
               <ArrowUpRight className="h-4 w-4" />
             </span>
           </div>

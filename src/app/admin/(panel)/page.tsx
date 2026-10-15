@@ -1,9 +1,11 @@
 import Link from "next/link";
-import { ArrowUpRight, CalendarCheck, Images, Mail, PenLine, Plus } from "lucide-react";
+import { ArrowUpRight, CalendarCheck, Images, Lock, Mail, PenLine, Plus, Wallet } from "lucide-react";
 import { getCurrentUser } from "@/lib/auth";
 import { listDocs } from "@/lib/db";
 import { collections } from "@/lib/cms-schema";
-import type { Booking, CollectionKey } from "@/lib/types";
+import type { Booking, CollectionKey, Payment } from "@/lib/types";
+import { formatMoney } from "@/lib/money";
+import { integrations } from "@/lib/integrations";
 import AdminIcon from "@/components/admin/AdminIcon";
 import { StatusBadge } from "@/components/admin/StatusBadge";
 
@@ -23,16 +25,19 @@ export default async function Dashboard() {
   const bookings = listDocs<Booking>("bookings", { sort: "newest" });
   const subscribers = listDocs("subscribers");
   const projects = listDocs("projects");
-  const posts = listDocs("posts");
   const buckets = weekBuckets(bookings.map((b) => b.createdAt));
   const max = Math.max(1, ...buckets.map((b) => b.count));
   const byStatus = ["new", "contacted", "confirmed", "completed", "cancelled"].map((s) => ({ s, n: bookings.filter((b) => b.status === s).length }));
 
+  const payments = listDocs<Payment>("payments").filter((p) => p.status === "paid");
+  const revenue30 = payments.filter((p) => Date.now() - new Date(p.paidAt).getTime() < 30 * 86400_000).reduce((s, p) => s + p.amount, 0);
+  const galleries = listDocs("galleries");
   const cards = [
     { label: "New enquiries", value: bookings.filter((b) => b.status === "new").length, sub: `${bookings.length} total`, icon: CalendarCheck, href: "/admin/bookings" },
     { label: "Portfolio projects", value: projects.length, sub: `${projects.filter((p) => p.featured).length} featured`, icon: Images, href: "/admin/content/projects" },
     { label: "Subscribers", value: subscribers.length, sub: "newsletter list", icon: Mail, href: "/admin/subscribers" },
-    { label: "Journal posts", value: posts.length, sub: `${posts.filter((p) => p.published === false).length} drafts`, icon: PenLine, href: "/admin/content/posts" },
+    { label: "Revenue · 30 days", value: formatMoney(revenue30, integrations().currency), sub: `${payments.length} payments total`, icon: Wallet, href: "/admin/content/payments" },
+    { label: "Client galleries", value: galleries.length, sub: `${galleries.filter((g) => g.selectionSubmittedAt).length} selections received`, icon: Lock, href: "/admin/content/galleries" },
   ];
 
   const hour = new Date().getHours();
@@ -48,20 +53,23 @@ export default async function Dashboard() {
           </h1>
         </div>
         <div className="flex flex-wrap gap-2">
-          <Link href="/admin/content/projects/new" className="inline-flex items-center gap-2 rounded-xl bg-accent px-4 py-2.5 text-sm font-semibold text-black">
+          <Link href="/admin/content/projects/new" className="inline-flex items-center gap-2 rounded-xl bg-accent px-4 py-2.5 text-sm font-semibold text-on-accent">
             <Plus className="h-4 w-4" /> New project
           </Link>
-          <Link href="/admin/content/posts/new" className="inline-flex items-center gap-2 rounded-xl border border-white/10 px-4 py-2.5 text-sm hover:border-white/30">
-            <PenLine className="h-4 w-4" /> Write a post
+          <Link href="/admin/content/galleries/new" className="inline-flex items-center gap-2 rounded-xl border border-paper/10 px-4 py-2.5 text-sm hover:border-paper/30">
+            <Lock className="h-4 w-4" /> New client gallery
+          </Link>
+          <Link href="/admin/content/invoices/new" className="inline-flex items-center gap-2 rounded-xl border border-paper/10 px-4 py-2.5 text-sm hover:border-paper/30">
+            <PenLine className="h-4 w-4" /> New invoice
           </Link>
         </div>
       </div>
 
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
         {cards.map((c) => (
-          <Link key={c.label} href={c.href} className="group rounded-2xl border border-white/[0.07] bg-[#111114] p-5 transition hover:border-white/15">
+          <Link key={c.label} href={c.href} className="group rounded-2xl border border-paper/[0.07] bg-[#111114] p-5 transition hover:border-paper/15">
             <div className="flex items-center justify-between">
-              <span className="grid h-10 w-10 place-items-center rounded-xl bg-white/[0.05] text-accent">
+              <span className="grid h-10 w-10 place-items-center rounded-xl bg-paper/[0.05] text-accent">
                 <c.icon className="h-5 w-5" strokeWidth={1.75} />
               </span>
               <ArrowUpRight className="h-4 w-4 text-muted transition group-hover:rotate-45 group-hover:text-paper" />
@@ -74,7 +82,7 @@ export default async function Dashboard() {
       </div>
 
       <div className="grid gap-4 lg:grid-cols-3">
-        <section className="rounded-2xl border border-white/[0.07] bg-[#111114] p-6 lg:col-span-2">
+        <section className="rounded-2xl border border-paper/[0.07] bg-[#111114] p-6 lg:col-span-2">
           <div className="flex items-center justify-between">
             <h2 className="font-semibold">Enquiries · last 12 weeks</h2>
             <span className="text-xs text-muted">{buckets.reduce((a, b) => a + b.count, 0)} total</span>
@@ -96,7 +104,7 @@ export default async function Dashboard() {
           </div>
         </section>
 
-        <section className="rounded-2xl border border-white/[0.07] bg-[#111114] p-6">
+        <section className="rounded-2xl border border-paper/[0.07] bg-[#111114] p-6">
           <h2 className="font-semibold">Pipeline</h2>
           <ul className="mt-6 space-y-4">
             {byStatus.map(({ s, n }) => (
@@ -105,7 +113,7 @@ export default async function Dashboard() {
                   <StatusBadge status={s} />
                   <span className="tabular-nums text-muted">{n}</span>
                 </div>
-                <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-white/[0.06]">
+                <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-paper/[0.06]">
                   <div className="h-full rounded-full bg-paper/70" style={{ width: `${bookings.length ? (n / bookings.length) * 100 : 0}%` }} />
                 </div>
               </li>
@@ -115,8 +123,8 @@ export default async function Dashboard() {
       </div>
 
       <div className="grid gap-4 lg:grid-cols-3">
-        <section className="rounded-2xl border border-white/[0.07] bg-[#111114] lg:col-span-2">
-          <div className="flex items-center justify-between border-b border-white/[0.06] px-6 py-4">
+        <section className="rounded-2xl border border-paper/[0.07] bg-[#111114] lg:col-span-2">
+          <div className="flex items-center justify-between border-b border-paper/[0.06] px-6 py-4">
             <h2 className="font-semibold">Latest enquiries</h2>
             <Link href="/admin/bookings" className="text-sm text-accent">
               View all
@@ -125,11 +133,11 @@ export default async function Dashboard() {
           {bookings.length === 0 ? (
             <p className="px-6 py-12 text-center text-sm text-muted">No enquiries yet. They&apos;ll appear here the moment someone books through the website.</p>
           ) : (
-            <ul className="divide-y divide-white/[0.05]">
+            <ul className="divide-y divide-paper/[0.05]">
               {bookings.slice(0, 6).map((b) => (
                 <li key={b.id}>
-                  <Link href={`/admin/bookings?id=${b.id}`} className="flex items-center gap-4 px-6 py-3.5 hover:bg-white/[0.02]">
-                    <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-white/[0.06] text-sm font-medium">{b.name.slice(0, 1).toUpperCase()}</span>
+                  <Link href={`/admin/bookings?id=${b.id}`} className="flex items-center gap-4 px-6 py-3.5 hover:bg-paper/[0.02]">
+                    <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-paper/[0.06] text-sm font-medium">{b.name.slice(0, 1).toUpperCase()}</span>
                     <div className="min-w-0 flex-1">
                       <p className="truncate text-sm font-medium">{b.name}</p>
                       <p className="truncate text-xs text-muted">
@@ -144,12 +152,12 @@ export default async function Dashboard() {
           )}
         </section>
 
-        <section className="rounded-2xl border border-white/[0.07] bg-[#111114] p-6">
+        <section className="rounded-2xl border border-paper/[0.07] bg-[#111114] p-6">
           <h2 className="font-semibold">Content</h2>
           <ul className="mt-4 space-y-1">
             {collections.map((c) => (
               <li key={c.key}>
-                <Link href={`/admin/content/${c.key}`} className="flex items-center gap-3 rounded-lg px-2 py-2 text-sm hover:bg-white/[0.04]">
+                <Link href={`/admin/content/${c.key}`} className="flex items-center gap-3 rounded-lg px-2 py-2 text-sm hover:bg-paper/[0.04]">
                   <AdminIcon name={c.icon} className="h-4 w-4 text-muted" />
                   <span className="flex-1">{c.label}</span>
                   <span className="text-xs tabular-nums text-muted">{listDocs(c.key as CollectionKey).length}</span>

@@ -61,10 +61,10 @@ export default function Testimonials({ items, title, index }: { items: Testimoni
             ))}
           </div>
           <div className="flex gap-2">
-            <button onClick={() => setI((i - 1 + items.length) % items.length)} aria-label="Previous" className="grid h-12 w-12 place-items-center rounded-full border border-white/15 transition hover:bg-white hover:text-black">
+            <button onClick={() => setI((i - 1 + items.length) % items.length)} aria-label="Previous" className="grid h-12 w-12 place-items-center rounded-full border border-paper/15 transition hover:bg-white hover:text-black">
               <ArrowLeft className="h-4 w-4" />
             </button>
-            <button onClick={() => setI((i + 1) % items.length)} aria-label="Next" className="grid h-12 w-12 place-items-center rounded-full border border-white/15 transition hover:bg-white hover:text-black">
+            <button onClick={() => setI((i + 1) % items.length)} aria-label="Next" className="grid h-12 w-12 place-items-center rounded-full border border-paper/15 transition hover:bg-white hover:text-black">
               <ArrowRight className="h-4 w-4" />
             </button>
           </div>

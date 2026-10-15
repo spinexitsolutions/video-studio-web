@@ -41,7 +41,7 @@ export function SocialLinks({ settings, className = "" }: { settings: Settings; 
             rel="noreferrer"
             aria-label={k}
             data-cursor="hover"
-            className="grid h-10 w-10 place-items-center rounded-full border border-white/10 text-paper/70 transition hover:border-accent hover:bg-accent hover:text-black"
+            className="grid h-10 w-10 place-items-center rounded-full border border-paper/10 text-paper/70 transition hover:border-accent hover:bg-accent hover:text-on-accent"
           >
             <SocialIcon name={k} />
           </a>

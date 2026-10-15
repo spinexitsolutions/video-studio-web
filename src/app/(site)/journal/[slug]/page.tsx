@@ -37,14 +37,14 @@ export default async function PostPage({ params }: Props) {
           {post.author} · {formatDate(post.publishedAt)} · {readingTime(post.content)} min read
         </p>
       </header>
-      {post.cover && <ParallaxImage src={post.cover} alt={post.title} className="mx-3 aspect-[16/10] rounded-[28px] sm:mx-6 sm:aspect-[21/9]" />}
+      {post.cover && <ParallaxImage src={post.cover} alt={post.title} className="mx-3 aspect-[16/10] rounded-[calc(28px*var(--rs))] sm:mx-6 sm:aspect-[21/9]" />}
       <div className="container-x max-w-3xl py-20">
         <p className="text-2xl font-medium leading-snug tracking-tight">{post.excerpt}</p>
         <div className="prose-studio mt-10" dangerouslySetInnerHTML={{ __html: renderMarkdown(post.content) }} />
         {post.tags?.length > 0 && (
           <div className="mt-12 flex flex-wrap gap-2">
             {post.tags.map((t) => (
-              <span key={t} className="rounded-full border border-white/10 px-3 py-1 text-xs text-muted">
+              <span key={t} className="rounded-full border border-paper/10 px-3 py-1 text-xs text-muted">
                 #{t}
               </span>
             ))}
@@ -52,7 +52,7 @@ export default async function PostPage({ params }: Props) {
         )}
       </div>
       {more.length > 0 && (
-        <section className="container-x border-t border-white/[0.08] py-24">
+        <section className="container-x border-t border-paper/[0.08] py-24">
           <h2 className="text-3xl font-semibold tracking-tight">Keep reading</h2>
           <div className="mt-10 grid gap-10 md:grid-cols-3">
             {more.map((p, i) => (

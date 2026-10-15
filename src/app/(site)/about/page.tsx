@@ -10,8 +10,11 @@ import Stats from "@/components/sections/Stats";
 import Team from "@/components/sections/Team";
 import Testimonials from "@/components/sections/Testimonials";
 import Cta from "@/components/sections/Cta";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = { title: "Studio", description: "Meet the studio and the people behind the lens." };
+export async function generateMetadata(): Promise<Metadata> {
+  return pageMetadata("about", { title: "Studio", description: "Meet the studio and the people behind the lens." });
+}
 
 export default function AboutPage() {
   const about = getSingleton("about");
@@ -19,7 +22,7 @@ export default function AboutPage() {
   return (
     <>
       <PageHeader eyebrow={about.eyebrow} title={about.title} />
-      <ParallaxImage src={about.image} alt="" className="mx-3 aspect-[4/5] rounded-[28px] sm:mx-6 sm:aspect-[21/9]" />
+      <ParallaxImage src={about.image} alt="" className="mx-3 aspect-[4/5] rounded-[calc(28px*var(--rs))] sm:mx-6 sm:aspect-[21/9]" />
       <section className="container-x py-28 sm:py-40">
         <ScrollWords text={about.intro} highlight={["light", "camera", "lens", "world"]} className="max-w-5xl text-[clamp(1.6rem,3.4vw,3.2rem)] font-medium leading-[1.15] tracking-[-0.025em]" />
         <div className="mt-20 grid gap-12 lg:grid-cols-12">
@@ -54,10 +57,10 @@ export default function AboutPage() {
         ].map(([label, items]) => (
           <div key={label as string}>
             <span className="eyebrow">{label as string}</span>
-            <ul className="mt-8 border-t border-white/[0.08]">
+            <ul className="mt-8 border-t border-paper/[0.08]">
               {(items as string[]).map((a, i) => (
                 <Reveal key={a} delay={i * 0.05}>
-                  <li className="group flex items-center justify-between border-b border-white/[0.08] py-5 text-lg transition-colors hover:text-accent">
+                  <li className="group flex items-center justify-between border-b border-paper/[0.08] py-5 text-lg transition-colors hover:text-accent">
                     {a}
                     <span className="font-mono text-xs text-muted">{String(i + 1).padStart(2, "0")}</span>
                   </li>

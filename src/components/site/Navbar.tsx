@@ -4,12 +4,17 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { AnimatePresence, motion, useMotionValueEvent, useScroll } from "framer-motion";
 import { useEffect, useState } from "react";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, LockKeyhole } from "lucide-react";
 import Logo from "./Logo";
 import Magnetic from "@/components/motion/Magnetic";
 import { SocialLinks } from "./Social";
 import type { Settings } from "@/lib/types";
 import { cn } from "@/lib/utils";
+
+export const FOOTER_EXTRA = [
+  { href: "/faq", label: "FAQ" },
+  { href: "/gallery", label: "Client area" },
+];
 
 export const NAV = [
   { href: "/work", label: "Work" },
@@ -52,13 +57,13 @@ export default function Navbar({ settings }: { settings: Settings }) {
               initial={{ height: 0 }}
               animate={{ height: "auto" }}
               exit={{ height: 0 }}
-              className="overflow-hidden bg-accent text-black"
+              className="overflow-hidden bg-accent text-on-accent"
             >
               <div className="container-x flex items-center justify-center gap-3 py-2 pr-10 text-center text-[13px] font-medium">
                 <Link href={settings.announcementLink || "/contact"} className="inline-flex items-center gap-1 hover:underline">
                   {settings.announcement} <ArrowUpRight className="h-3.5 w-3.5" />
                 </Link>
-                <button onClick={() => setAnnounce(false)} aria-label="Dismiss" className="absolute right-4 text-black/60 hover:text-black">
+                <button onClick={() => setAnnounce(false)} aria-label="Dismiss" className="absolute right-4 text-on-accent/60 hover:text-on-accent">
                   ✕
                 </button>
               </div>
@@ -91,7 +96,7 @@ export default function Navbar({ settings }: { settings: Settings }) {
                           active ? "text-paper" : "text-paper/60 hover:text-paper"
                         )}
                       >
-                        {active && <motion.span layoutId="nav-pill" className="absolute inset-0 rounded-full bg-white/[0.08]" transition={{ type: "spring", stiffness: 400, damping: 35 }} />}
+                        {active && <motion.span layoutId="nav-pill" className="absolute inset-0 rounded-full bg-paper/[0.08]" transition={{ type: "spring", stiffness: 400, damping: 35 }} />}
                         <span className="relative">{n.label}</span>
                       </Link>
                     </li>
@@ -99,6 +104,9 @@ export default function Navbar({ settings }: { settings: Settings }) {
                 })}
               </ul>
               <div className="flex items-center gap-2">
+                <Link href="/gallery" title="Client area" aria-label="Client area" className="hidden h-10 items-center gap-1.5 rounded-full px-3 text-[13px] text-paper/60 transition hover:text-paper md:flex">
+                  <LockKeyhole className="h-4 w-4" /> <span className="hidden xl:inline">Client area</span>
+                </Link>
                 <Magnetic className="hidden sm:block">
                   <Link href="/contact" className="btn-primary !py-2.5 !text-[14px]">
                     Book now <ArrowUpRight className="h-4 w-4" />
@@ -108,7 +116,7 @@ export default function Navbar({ settings }: { settings: Settings }) {
                   onClick={() => setOpen((o) => !o)}
                   aria-label="Menu"
                   aria-expanded={open}
-                  className="relative grid h-11 w-11 place-items-center rounded-full bg-white/[0.08] lg:hidden"
+                  className="relative grid h-11 w-11 place-items-center rounded-full bg-paper/[0.08] lg:hidden"
                 >
                   <span className={cn("absolute h-px w-5 bg-paper transition-all duration-500", open ? "rotate-45" : "-translate-y-1")} />
                   <span className={cn("absolute h-px w-5 bg-paper transition-all duration-500", open ? "-rotate-45" : "translate-y-1")} />
@@ -130,7 +138,7 @@ export default function Navbar({ settings }: { settings: Settings }) {
             data-lenis-prevent
           >
             <div className="container-x flex flex-1 flex-col justify-center pt-24">
-              {NAV.map((n, i) => (
+              {[...NAV, { href: "/gallery", label: "Client area" }].map((n, i) => (
                 <div key={n.href} className="overflow-hidden">
                   <motion.div initial={{ y: "100%" }} animate={{ y: 0 }} transition={{ delay: 0.25 + i * 0.06, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}>
                     <Link href={n.href} className="flex items-baseline gap-4 py-2 text-5xl font-semibold tracking-tight sm:text-6xl">

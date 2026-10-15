@@ -54,7 +54,7 @@ export default function Cursor() {
       <motion.div className="pointer-events-none fixed left-0 top-0 z-[89]" style={{ x: sx, y: sy }}>
         <motion.div
           className={`flex -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full ${
-            mode === "label" ? "bg-accent text-black" : "border border-white/50 mix-blend-difference"
+            mode === "label" ? "bg-accent text-on-accent" : "border border-paper/50 mix-blend-difference"
           }`}
           animate={{ width: size, height: size, scale: down ? 0.85 : 1 }}
           transition={{ type: "spring", stiffness: 300, damping: 25 }}
@@ -62,8 +62,8 @@ export default function Cursor() {
           {mode === "label" && <span className="font-mono text-[10px] font-medium uppercase tracking-[0.2em]">{label}</span>}
           {mode === "default" && (
             <>
-              <span className="absolute left-1/2 top-0 h-1.5 w-px -translate-x-1/2 bg-white/60" />
-              <span className="absolute bottom-0 left-1/2 h-1.5 w-px -translate-x-1/2 bg-white/60" />
+              <span className="absolute left-1/2 top-0 h-1.5 w-px -translate-x-1/2 bg-paper/60" />
+              <span className="absolute bottom-0 left-1/2 h-1.5 w-px -translate-x-1/2 bg-paper/60" />
             </>
           )}
         </motion.div>

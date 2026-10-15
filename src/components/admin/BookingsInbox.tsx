@@ -66,21 +66,21 @@ export default function BookingsInbox() {
       <PageTitle title="Bookings" description="Every enquiry from the website booking form.">
         <button
           onClick={() => downloadCsv(`bookings-${new Date().toISOString().slice(0, 10)}.csv`, items || [], ["createdAt", "status", "name", "email", "phone", "service", "package", "date", "location", "budget", "message", "notes"])}
-          className="inline-flex items-center gap-2 rounded-xl border border-white/10 px-4 py-2.5 text-sm hover:border-white/30"
+          className="inline-flex items-center gap-2 rounded-xl border border-paper/10 px-4 py-2.5 text-sm hover:border-paper/30"
         >
           <Download className="h-4 w-4" /> Export CSV
         </button>
       </PageTitle>
 
       <div className="mb-4 flex flex-col gap-3 lg:flex-row lg:items-center">
-        <div className="flex gap-1 overflow-x-auto rounded-xl border border-white/10 p-1 text-sm no-scrollbar">
+        <div className="flex gap-1 overflow-x-auto rounded-xl border border-paper/10 p-1 text-sm no-scrollbar">
           {["all", ...BOOKING_STATUSES].map((s) => (
-            <button key={s} onClick={() => setStatus(s)} className={cn("shrink-0 rounded-lg px-3 py-1.5 capitalize", status === s ? "bg-white/10 text-paper" : "text-muted hover:text-paper")}>
+            <button key={s} onClick={() => setStatus(s)} className={cn("shrink-0 rounded-lg px-3 py-1.5 capitalize", status === s ? "bg-paper/10 text-paper" : "text-muted hover:text-paper")}>
               {s} {s !== "all" && <span className="text-xs text-muted">{counts[s]}</span>}
             </button>
           ))}
         </div>
-        <div className="flex flex-1 items-center gap-2 rounded-xl border border-white/10 bg-white/[0.03] px-3">
+        <div className="flex flex-1 items-center gap-2 rounded-xl border border-paper/10 bg-paper/[0.03] px-3">
           <Search className="h-4 w-4 text-muted" />
           <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Search name, email, message…" className="w-full bg-transparent py-2.5 text-sm outline-none" />
         </div>
@@ -91,7 +91,7 @@ export default function BookingsInbox() {
           <Loader2 className="h-5 w-5 animate-spin" />
         </div>
       ) : items.length === 0 ? (
-        <div className="grid h-72 place-items-center rounded-2xl border border-white/[0.07] bg-[#111114] text-center">
+        <div className="grid h-72 place-items-center rounded-2xl border border-paper/[0.07] bg-[#111114] text-center">
           <div>
             <Inbox className="mx-auto h-10 w-10 text-muted" strokeWidth={1.25} />
             <p className="mt-4 font-medium">Your inbox is empty</p>
@@ -100,10 +100,10 @@ export default function BookingsInbox() {
         </div>
       ) : (
         <div className="grid gap-4 lg:grid-cols-5">
-          <ul className={cn("max-h-[70vh] divide-y divide-white/[0.05] overflow-y-auto rounded-2xl border border-white/[0.07] bg-[#111114] lg:col-span-2", current && "hidden lg:block")}>
+          <ul className={cn("max-h-[70vh] divide-y divide-paper/[0.05] overflow-y-auto rounded-2xl border border-paper/[0.07] bg-[#111114] lg:col-span-2", current && "hidden lg:block")}>
             {list.map((b) => (
               <li key={b.id}>
-                <button onClick={() => setActive(b.id)} className={cn("w-full px-4 py-3.5 text-left transition-colors hover:bg-white/[0.03]", active === b.id && "bg-white/[0.05]")}>
+                <button onClick={() => setActive(b.id)} className={cn("w-full px-4 py-3.5 text-left transition-colors hover:bg-paper/[0.03]", active === b.id && "bg-paper/[0.05]")}>
                   <div className="flex items-center justify-between gap-2">
                     <span className={cn("truncate text-sm", b.status === "new" ? "font-semibold" : "font-medium")}>{b.name}</span>
                     <span className="shrink-0 text-[11px] text-muted">{timeAgo(b.createdAt)}</span>
@@ -119,8 +119,8 @@ export default function BookingsInbox() {
           </ul>
 
           {current ? (
-            <section className="rounded-2xl border border-white/[0.07] bg-[#111114] lg:col-span-3">
-              <div className="flex flex-wrap items-start justify-between gap-4 border-b border-white/[0.06] p-6">
+            <section className="rounded-2xl border border-paper/[0.07] bg-[#111114] lg:col-span-3">
+              <div className="flex flex-wrap items-start justify-between gap-4 border-b border-paper/[0.06] p-6">
                 <div>
                   <button onClick={() => setActive(null)} className="mb-2 text-xs text-muted lg:hidden">
                     ← All bookings
@@ -145,7 +145,7 @@ export default function BookingsInbox() {
                   { icon: MapPin, label: "Location", value: current.location },
                   { icon: Wallet, label: "Budget", value: current.budget },
                 ].map((r) => (
-                  <div key={r.label} className="flex items-start gap-3 rounded-xl bg-white/[0.03] p-4">
+                  <div key={r.label} className="flex items-start gap-3 rounded-xl bg-paper/[0.03] p-4">
                     <r.icon className="mt-0.5 h-4 w-4 shrink-0 text-muted" />
                     <div className="min-w-0">
                       <p className="text-[11px] uppercase tracking-wider text-muted">{r.label}</p>
@@ -160,28 +160,50 @@ export default function BookingsInbox() {
                   </div>
                 ))}
               </div>
+              {(current.depositAmount ?? 0) > 0 && (
+                <div className="mx-6 mb-4 flex flex-wrap items-center justify-between gap-3 rounded-xl border border-paper/10 p-4">
+                  <div>
+                    <p className="text-[11px] uppercase tracking-wider text-muted">Deposit</p>
+                    <p className="text-sm">
+                      {current.depositAmount?.toLocaleString()} ·{" "}
+                      <span className={current.paymentStatus === "deposit_paid" ? "text-emerald-400" : "text-amber-300"}>{current.paymentStatus === "deposit_paid" ? "Paid" : "Not paid yet"}</span>
+                    </p>
+                  </div>
+                  {current.paymentToken && current.paymentStatus !== "deposit_paid" && (
+                    <button
+                      onClick={() => {
+                        navigator.clipboard.writeText(`${window.location.origin}/pay/${current.paymentToken}`);
+                        toast("Payment link copied — share it with the client");
+                      }}
+                      className="rounded-lg bg-paper/[0.08] px-3 py-2 text-xs hover:bg-paper/15"
+                    >
+                      Copy payment link
+                    </button>
+                  )}
+                </div>
+              )}
               {current.message && (
                 <div className="px-6">
                   <p className="text-[11px] uppercase tracking-wider text-muted">Message</p>
-                  <p className="mt-2 whitespace-pre-wrap rounded-xl bg-white/[0.03] p-4 text-sm leading-relaxed">{current.message}</p>
+                  <p className="mt-2 whitespace-pre-wrap rounded-xl bg-paper/[0.03] p-4 text-sm leading-relaxed">{current.message}</p>
                 </div>
               )}
               <div className="p-6">
                 <p className="text-[11px] uppercase tracking-wider text-muted">Internal notes</p>
                 <textarea value={notes} onChange={(e) => setNotes(e.target.value)} rows={3} placeholder="Only visible to your team…" className={cn(inputCls, "mt-2 resize-y")} />
                 <div className="mt-4 flex flex-wrap items-center gap-2">
-                  <button disabled={notes === (current.notes || "")} onClick={() => update(current.id, { notes }, "Notes saved")} className="rounded-xl bg-paper px-4 py-2.5 text-sm font-medium text-black disabled:opacity-40">
+                  <button disabled={notes === (current.notes || "")} onClick={() => update(current.id, { notes }, "Notes saved")} className="rounded-xl bg-paper px-4 py-2.5 text-sm font-medium text-ink disabled:opacity-40">
                     Save notes
                   </button>
                   <a
                     href={`mailto:${current.email}?subject=${encodeURIComponent(`Re: your ${current.service || "shoot"} enquiry`)}&body=${encodeURIComponent(`Hi ${current.name.split(" ")[0]},\n\nThank you for reaching out!\n\n`)}`}
                     onClick={() => current.status === "new" && update(current.id, { status: "contacted" }, "Marked as contacted")}
-                    className="rounded-xl bg-accent px-4 py-2.5 text-sm font-medium text-black"
+                    className="rounded-xl bg-accent px-4 py-2.5 text-sm font-medium text-on-accent"
                   >
                     Reply by email
                   </a>
                   {current.phone && (
-                    <a href={`https://wa.me/${current.phone.replace(/\D/g, "")}`} target="_blank" className="rounded-xl border border-white/10 px-4 py-2.5 text-sm hover:border-white/30">
+                    <a href={`https://wa.me/${current.phone.replace(/\D/g, "")}`} target="_blank" className="rounded-xl border border-paper/10 px-4 py-2.5 text-sm hover:border-paper/30">
                       WhatsApp
                     </a>
                   )}
@@ -192,7 +214,7 @@ export default function BookingsInbox() {
               </div>
             </section>
           ) : (
-            <div className="hidden place-items-center rounded-2xl border border-dashed border-white/[0.08] text-sm text-muted lg:col-span-3 lg:grid">Select an enquiry</div>
+            <div className="hidden place-items-center rounded-2xl border border-dashed border-paper/[0.08] text-sm text-muted lg:col-span-3 lg:grid">Select an enquiry</div>
           )}
         </div>
       )}

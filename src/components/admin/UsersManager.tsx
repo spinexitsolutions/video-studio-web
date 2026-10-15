@@ -50,12 +50,12 @@ export default function UsersManager({ meId }: { meId: string }) {
   return (
     <>
       <PageTitle title="Users" description="Admins can manage everything. Editors can manage content but not users or backups.">
-        <button onClick={() => setAdding((a) => !a)} className="inline-flex items-center gap-2 rounded-xl bg-accent px-4 py-2.5 text-sm font-semibold text-black">
+        <button onClick={() => setAdding((a) => !a)} className="inline-flex items-center gap-2 rounded-xl bg-accent px-4 py-2.5 text-sm font-semibold text-on-accent">
           <Plus className="h-4 w-4" /> Invite user
         </button>
       </PageTitle>
       {adding && (
-        <form onSubmit={create} className="mb-6 grid gap-3 rounded-2xl border border-white/[0.07] bg-[#111114] p-6 sm:grid-cols-2">
+        <form onSubmit={create} className="mb-6 grid gap-3 rounded-2xl border border-paper/[0.07] bg-[#111114] p-6 sm:grid-cols-2">
           <input required placeholder="Full name" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} className={inputCls} />
           <input required type="email" placeholder="Email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} className={inputCls} />
           <input required type="password" minLength={8} placeholder="Temporary password (8+ chars)" value={form.password} onChange={(e) => setForm({ ...form, password: e.target.value })} className={inputCls} />
@@ -64,7 +64,7 @@ export default function UsersManager({ meId }: { meId: string }) {
             <option value="admin" className="bg-[#121215]">Admin</option>
           </select>
           <div className="flex gap-2 sm:col-span-2">
-            <button disabled={busy} className="rounded-xl bg-paper px-5 py-2.5 text-sm font-medium text-black disabled:opacity-50">
+            <button disabled={busy} className="rounded-xl bg-paper px-5 py-2.5 text-sm font-medium text-ink disabled:opacity-50">
               {busy ? <Loader2 className="h-4 w-4 animate-spin" /> : "Create user"}
             </button>
             <button type="button" onClick={() => setAdding(false)} className="rounded-xl px-4 py-2.5 text-sm text-muted">
@@ -73,16 +73,16 @@ export default function UsersManager({ meId }: { meId: string }) {
           </div>
         </form>
       )}
-      <div className="overflow-hidden rounded-2xl border border-white/[0.07] bg-[#111114]">
+      <div className="overflow-hidden rounded-2xl border border-paper/[0.07] bg-[#111114]">
         {!users ? (
           <div className="grid h-40 place-items-center text-muted">
             <Loader2 className="h-5 w-5 animate-spin" />
           </div>
         ) : (
-          <ul className="divide-y divide-white/[0.05]">
+          <ul className="divide-y divide-paper/[0.05]">
             {users.map((u) => (
               <li key={u.id} className="flex flex-wrap items-center gap-4 px-5 py-4">
-                <span className="grid h-10 w-10 place-items-center rounded-full bg-gradient-to-br from-accent to-pink-500 font-semibold text-black">{u.name[0]?.toUpperCase()}</span>
+                <span className="grid h-10 w-10 place-items-center rounded-full bg-gradient-to-br from-accent to-pink-500 font-semibold text-on-accent">{u.name[0]?.toUpperCase()}</span>
                 <div className="min-w-0 flex-1">
                   <p className="text-sm font-medium">
                     {u.name} {u.id === meId && <span className="text-xs text-muted">(you)</span>}
@@ -105,7 +105,7 @@ export default function UsersManager({ meId }: { meId: string }) {
                     const p = prompt(`New password for ${u.name} (8+ characters):`);
                     if (p) update(u.id, { password: p }, "Password reset");
                   }}
-                  className="grid h-9 w-9 place-items-center rounded-lg text-muted hover:bg-white/5 hover:text-paper"
+                  className="grid h-9 w-9 place-items-center rounded-lg text-muted hover:bg-paper/5 hover:text-paper"
                   title="Reset password"
                 >
                   <KeyRound className="h-4 w-4" />

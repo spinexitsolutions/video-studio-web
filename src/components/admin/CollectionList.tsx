@@ -87,20 +87,22 @@ export default function CollectionList({ config }: { config: CollectionConfig })
   return (
     <>
       <PageTitle title={config.label} description={config.description}>
-        <Link href={`/admin/content/${config.key}/new`} className="inline-flex items-center gap-2 rounded-xl bg-accent px-4 py-2.5 text-sm font-semibold text-black hover:brightness-110">
-          <Plus className="h-4 w-4" /> New {config.singular.toLowerCase()}
-        </Link>
+        {!config.readOnly && (
+          <Link href={`/admin/content/${config.key}/new`} className="inline-flex items-center gap-2 rounded-xl bg-accent px-4 py-2.5 text-sm font-semibold text-on-accent hover:brightness-110">
+            <Plus className="h-4 w-4" /> New {config.singular.toLowerCase()}
+          </Link>
+        )}
       </PageTitle>
 
       <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center">
-        <div className="flex flex-1 items-center gap-2 rounded-xl border border-white/10 bg-white/[0.03] px-3">
+        <div className="flex flex-1 items-center gap-2 rounded-xl border border-paper/10 bg-paper/[0.03] px-3">
           <Search className="h-4 w-4 text-muted" />
           <input value={q} onChange={(e) => setQ(e.target.value)} placeholder={`Search ${config.label.toLowerCase()}…`} className="w-full bg-transparent py-2.5 text-sm outline-none" />
         </div>
         {config.publishable && (
-          <div className="flex rounded-xl border border-white/10 p-1 text-sm">
+          <div className="flex rounded-xl border border-paper/10 p-1 text-sm">
             {(["all", "published", "draft"] as const).map((f) => (
-              <button key={f} onClick={() => setFilter(f)} className={cn("rounded-lg px-3 py-1.5 capitalize", filter === f ? "bg-white/10 text-paper" : "text-muted hover:text-paper")}>
+              <button key={f} onClick={() => setFilter(f)} className={cn("rounded-lg px-3 py-1.5 capitalize", filter === f ? "bg-paper/10 text-paper" : "text-muted hover:text-paper")}>
                 {f === "draft" ? "Drafts" : f}
               </button>
             ))}
@@ -108,7 +110,7 @@ export default function CollectionList({ config }: { config: CollectionConfig })
         )}
       </div>
 
-      <div className="overflow-hidden rounded-2xl border border-white/[0.07] bg-[#111114]">
+      <div className="overflow-hidden rounded-2xl border border-paper/[0.07] bg-[#111114]">
         {!items ? (
           <div className="grid h-48 place-items-center text-muted">
             <Loader2 className="h-5 w-5 animate-spin" />
@@ -123,7 +125,7 @@ export default function CollectionList({ config }: { config: CollectionConfig })
             </div>
           </div>
         ) : (
-          <ul className="divide-y divide-white/[0.05]">
+          <ul className="divide-y divide-paper/[0.05]">
             {visible.map((item, i) => (
               <li
                 key={item.id}
@@ -134,11 +136,11 @@ export default function CollectionList({ config }: { config: CollectionConfig })
                   if (drag !== null && drag !== i) reorder(drag, i);
                   setDrag(null);
                 }}
-                className={cn("group flex items-center gap-4 px-4 py-3 transition-colors hover:bg-white/[0.02]", drag === i && "opacity-40")}
+                className={cn("group flex items-center gap-4 px-4 py-3 transition-colors hover:bg-paper/[0.02]", drag === i && "opacity-40")}
               >
                 {canDrag && <GripVertical className="h-4 w-4 shrink-0 cursor-grab text-muted/50 group-hover:text-muted" />}
                 {config.imageField && (
-                  <div className="h-12 w-16 shrink-0 overflow-hidden rounded-lg bg-white/5">
+                  <div className="h-12 w-16 shrink-0 overflow-hidden rounded-lg bg-paper/5">
                     {item[config.imageField] && <img src={item[config.imageField]} alt="" className="h-full w-full object-cover" loading="lazy" />}
                   </div>
                 )}
@@ -157,14 +159,14 @@ export default function CollectionList({ config }: { config: CollectionConfig })
                 )}
                 <div className="flex items-center gap-1">
                   {config.viewPath && item.published !== false && (
-                    <a href={config.viewPath.replace("{slug}", item.slug || "")} target="_blank" className="grid h-8 w-8 place-items-center rounded-lg text-muted hover:bg-white/5 hover:text-paper" title="View on site">
+                    <a href={config.viewPath.replace("{slug}", item.slug || "")} target="_blank" className="grid h-8 w-8 place-items-center rounded-lg text-muted hover:bg-paper/5 hover:text-paper" title="View on site">
                       <ExternalLink className="h-4 w-4" />
                     </a>
                   )}
-                  <button onClick={() => duplicate(item)} className="grid h-8 w-8 place-items-center rounded-lg text-muted hover:bg-white/5 hover:text-paper" title="Duplicate">
+                  {!config.readOnly && <button onClick={() => duplicate(item)} className="grid h-8 w-8 place-items-center rounded-lg text-muted hover:bg-paper/5 hover:text-paper" title="Duplicate">
                     <Copy className="h-4 w-4" />
-                  </button>
-                  <Link href={`/admin/content/${config.key}/${item.id}`} className="grid h-8 w-8 place-items-center rounded-lg text-muted hover:bg-white/5 hover:text-paper" title="Edit">
+                  </button>}
+                  <Link href={`/admin/content/${config.key}/${item.id}`} className="grid h-8 w-8 place-items-center rounded-lg text-muted hover:bg-paper/5 hover:text-paper" title="Edit">
                     <Pencil className="h-4 w-4" />
                   </Link>
                   <button onClick={() => remove(item)} className="grid h-8 w-8 place-items-center rounded-lg text-muted hover:bg-red-500/10 hover:text-red-400" title="Delete">

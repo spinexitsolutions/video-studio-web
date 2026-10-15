@@ -5,7 +5,7 @@ export default function Manifesto({ text }: { text: string }) {
     <section className="relative py-32 sm:py-48">
       <div className="container-x">
         <div className="mb-10 flex items-center gap-4 font-mono text-[11px] uppercase tracking-[0.2em] text-muted">
-          <span className="h-px w-12 bg-white/20" /> Manifesto
+          <span className="h-px w-12 bg-paper/20" /> Manifesto
         </div>
         <ScrollWords
           text={text}

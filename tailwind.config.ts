@@ -1,18 +1,22 @@
 import type { Config } from "tailwindcss";
 
+const v = (name: string) => `rgb(var(${name}) / <alpha-value>)`;
+
 export default {
   content: ["./src/**/*.{ts,tsx}"],
   theme: {
     extend: {
       colors: {
-        ink: { DEFAULT: "#050506", 50: "#0b0b0d", 100: "#111114", 200: "#18181c", 300: "#222228", 400: "#2e2e36" },
-        paper: { DEFAULT: "#f5f5f7", dim: "#d2d2d7" },
-        muted: "#86868b",
-        accent: "rgb(var(--accent-rgb) / <alpha-value>)",
+        ink: { DEFAULT: v("--ink"), 50: v("--ink-50"), 100: v("--ink-100"), 200: v("--ink-200"), 300: v("--ink-300"), 400: v("--ink-400") },
+        paper: { DEFAULT: v("--paper"), dim: v("--paper-dim") },
+        muted: v("--muted"),
+        accent: v("--accent-rgb"),
+        "on-accent": v("--on-accent"),
       },
       fontFamily: {
-        sans: ["Inter", "-apple-system", "BlinkMacSystemFont", "SF Pro Display", "Segoe UI", "Roboto", "Helvetica Neue", "Arial", "sans-serif"],
-        serif: ["Instrument Serif", "New York", "Iowan Old Style", "Georgia", "serif"],
+        sans: ["var(--font-sans)"],
+        display: ["var(--font-display)"],
+        serif: ["var(--font-serif)"],
         mono: ["JetBrains Mono", "SF Mono", "ui-monospace", "Menlo", "monospace"],
       },
       letterSpacing: { tightest: "-0.055em" },

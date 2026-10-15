@@ -15,7 +15,7 @@ export default function Cta({ title, subtitle, image }: { title: string; subtitl
   const scale = useTransform(scrollYProgress, [0, 0.5], [0.88, 1]);
   return (
     <section ref={ref} className="px-3 py-10 sm:px-6">
-      <motion.div style={{ scale }} className="relative overflow-hidden rounded-[36px]">
+      <motion.div style={{ scale }} className="on-dark relative overflow-hidden rounded-[calc(36px*var(--rs))]">
         <motion.div style={{ y }} className="absolute inset-[-15%_0]">
           <Img src={image} alt="" className="h-full w-full object-cover" />
         </motion.div>
@@ -28,7 +28,7 @@ export default function Cta({ title, subtitle, image }: { title: string; subtitl
           <p className="mt-6 max-w-lg text-lg text-white/75">{subtitle}</p>
           <div className="mt-10">
             <Magnetic strength={0.5}>
-              <Link href="/contact" className="group relative grid h-40 w-40 place-items-center rounded-full bg-accent text-center text-black transition-transform duration-700 ease-expo hover:scale-110 sm:h-48 sm:w-48">
+              <Link href="/contact" className="group relative grid h-40 w-40 place-items-center rounded-full bg-accent text-center text-on-accent transition-transform duration-700 ease-expo hover:scale-110 sm:h-48 sm:w-48">
                 <span className="font-medium">
                   Book your
                   <br />

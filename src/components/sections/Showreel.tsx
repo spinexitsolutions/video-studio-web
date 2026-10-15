@@ -21,7 +21,7 @@ export default function Showreel({ title, subtitle, poster, videoUrl }: { title:
 
   return (
     <section ref={ref} className="relative h-[220vh]">
-      <div className="sticky top-0 h-[100svh] overflow-hidden">
+      <div className="on-dark sticky top-0 h-[100svh] overflow-hidden">
         <motion.button
           type="button"
           onClick={() => setOpen(true)}
@@ -34,8 +34,8 @@ export default function Showreel({ title, subtitle, poster, videoUrl }: { title:
             <Img src={poster} alt="" className="h-full w-full object-cover" />
           </motion.div>
           <div className="absolute inset-0 bg-black/35" />
-          <motion.span style={{ scale: playScale }} className="absolute left-1/2 top-1/2 grid h-28 w-28 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full bg-white/15 backdrop-blur-xl sm:h-36 sm:w-36">
-            <span className="absolute inset-0 animate-ping rounded-full bg-white/10 [animation-duration:2.5s]" />
+          <motion.span style={{ scale: playScale }} className="absolute left-1/2 top-1/2 grid h-28 w-28 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full bg-paper/15 backdrop-blur-xl sm:h-36 sm:w-36">
+            <span className="absolute inset-0 animate-ping rounded-full bg-paper/10 [animation-duration:2.5s]" />
             <Play className="h-8 w-8 translate-x-0.5 fill-white text-white" />
           </motion.span>
           <div className="absolute bottom-10 left-1/2 -translate-x-1/2 text-center">

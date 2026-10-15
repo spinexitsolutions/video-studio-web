@@ -3,14 +3,18 @@ import { listDocs } from "@/lib/db";
 import type { Post } from "@/lib/types";
 import PageHeader from "@/components/sections/PageHeader";
 import JournalList from "@/components/sections/JournalList";
+import { pageHeader, pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = { title: "Journal", description: "Stories, tips and behind-the-scenes from the studio." };
+export async function generateMetadata(): Promise<Metadata> {
+  return pageMetadata("journal", { title: "Journal", description: "Stories, tips and behind-the-scenes from the studio." });
+}
 
 export default function JournalPage() {
+  const h = pageHeader("journal");
   const posts = listDocs<Post>("posts", { published: true }).sort((a, b) => (b.publishedAt > a.publishedAt ? 1 : -1));
   return (
     <>
-      <PageHeader eyebrow="Journal" title="Notes on light." subtitle="Field guides, behind-the-scenes and the stories behind our favourite frames." />
+      <PageHeader eyebrow={h.eyebrow} title={h.title} subtitle={h.subtitle} />
       <JournalList posts={posts} />
     </>
   );

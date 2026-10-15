@@ -18,7 +18,7 @@ export default function ProjectGallery({ images }: { images: string[] }) {
             <motion.button
               key={src + i}
               onClick={() => setIndex(i)}
-              className={cn("group relative overflow-hidden rounded-[20px] bg-ink-200", pattern[i % pattern.length])}
+              className={cn("group relative overflow-hidden rounded-[calc(20px*var(--rs))] bg-ink-200", pattern[i % pattern.length])}
               initial={{ opacity: 0, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "0px 0px -10% 0px" }}

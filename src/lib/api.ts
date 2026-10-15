@@ -7,18 +7,24 @@ export const bad = (error: string, status = 400) => NextResponse.json({ error },
 
 /** Collections editable through the generic admin API, with their writable fields. */
 export function writableFields(key: string): string[] | null {
-  if (key === "bookings") return ["status", "notes", "name", "email", "phone", "service", "package", "date", "location", "budget", "message"];
+  if (key === "bookings") return ["status", "notes", "name", "email", "phone", "service", "package", "date", "location", "budget", "message", "paymentStatus"];
   if (key === "subscribers") return ["email"];
   const cfg = getCollectionConfig(key);
   if (!cfg) return null;
-  return ["order", ...cfg.groups.flatMap((g) => g.fields.map((f) => f.name))];
+  if (cfg.readOnly) return [];
+  return ["order", ...cfg.groups.flatMap((g) => g.fields.filter((f) => f.type !== "readonly").map((f) => f.name))];
 }
+
+/** Whether the collection can be read at all through the generic admin API. */
+export const isKnownCollection = (key: string) => key === "bookings" || key === "subscribers" || !!getCollectionConfig(key);
 
 export function singletonFields(key: string): string[] | null {
   const cfg = getSingletonConfig(key);
   if (!cfg) return null;
-  return cfg.groups.flatMap((g) => g.fields.map((f) => f.name));
+  return cfg.groups.flatMap((g) => g.fields.filter((f) => f.type !== "readonly").map((f) => f.name));
 }
+
+export const singletonAdminOnly = (key: string) => !!getSingletonConfig(key)?.adminOnly;
 
 export function pick(data: Record<string, any>, fields: string[]) {
   const out: Record<string, any> = {};

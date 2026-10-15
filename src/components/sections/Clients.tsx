@@ -63,7 +63,7 @@ export default function Clients({ clients }: { clients: Client[] }) {
   if (!clients.length) return null;
   const half = Math.ceil(clients.length / 2);
   return (
-    <section className="relative overflow-hidden border-y border-white/[0.06] py-14">
+    <section className="relative overflow-hidden border-y border-paper/[0.06] py-14">
       <p className="container-x mb-8 font-mono text-[11px] uppercase tracking-[0.22em] text-muted">Trusted by brands & families worldwide</p>
       <div className="space-y-2 [mask-image:linear-gradient(90deg,transparent,#000_10%,#000_90%,transparent)]">
         <Row items={clients.slice(0, half)} />

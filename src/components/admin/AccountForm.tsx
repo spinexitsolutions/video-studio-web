@@ -31,20 +31,20 @@ export default function AccountForm({ name, email, role }: { name: string; email
         }}
         className="max-w-xl space-y-6"
       >
-        <section className="space-y-4 rounded-2xl border border-white/[0.07] bg-[#111114] p-6">
+        <section className="space-y-4 rounded-2xl border border-paper/[0.07] bg-[#111114] p-6">
           <h2 className="font-semibold">Profile</h2>
           <label className="block">
             <span className="mb-2 block text-[13px] font-medium">Display name</span>
             <input value={f.name} onChange={(e) => setF({ ...f, name: e.target.value })} className={inputCls} />
           </label>
         </section>
-        <section className="space-y-4 rounded-2xl border border-white/[0.07] bg-[#111114] p-6">
+        <section className="space-y-4 rounded-2xl border border-paper/[0.07] bg-[#111114] p-6">
           <h2 className="font-semibold">Change password</h2>
           <input type="password" placeholder="Current password" value={f.currentPassword} onChange={(e) => setF({ ...f, currentPassword: e.target.value })} className={inputCls} autoComplete="current-password" />
           <input type="password" placeholder="New password (8+ characters)" value={f.newPassword} onChange={(e) => setF({ ...f, newPassword: e.target.value })} className={inputCls} autoComplete="new-password" />
           <input type="password" placeholder="Confirm new password" value={f.confirm} onChange={(e) => setF({ ...f, confirm: e.target.value })} className={inputCls} autoComplete="new-password" />
         </section>
-        <button disabled={busy} className="inline-flex items-center gap-2 rounded-xl bg-accent px-5 py-2.5 text-sm font-semibold text-black disabled:opacity-60">
+        <button disabled={busy} className="inline-flex items-center gap-2 rounded-xl bg-accent px-5 py-2.5 text-sm font-semibold text-on-accent disabled:opacity-60">
           {busy && <Loader2 className="h-4 w-4 animate-spin" />} Save
         </button>
       </form>

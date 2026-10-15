@@ -40,7 +40,7 @@ export default async function ProjectPage({ params }: Props) {
           <SplitText text={project.title} by="char" stagger={0.02} />
         </h1>
         <Reveal delay={0.3}>
-          <dl className="mt-12 grid grid-cols-2 gap-6 border-t border-white/[0.08] pt-8 sm:grid-cols-4">
+          <dl className="mt-12 grid grid-cols-2 gap-6 border-t border-paper/[0.08] pt-8 sm:grid-cols-4">
             {[
               ["Client", project.client],
               ["Category", project.category],
@@ -56,7 +56,7 @@ export default async function ProjectPage({ params }: Props) {
         </Reveal>
       </header>
 
-      <ParallaxImage src={project.cover} alt={project.title} className="mx-3 aspect-[4/5] rounded-[28px] sm:mx-6 sm:aspect-[21/9]" />
+      <ParallaxImage src={project.cover} alt={project.title} className="mx-3 aspect-[4/5] rounded-[calc(28px*var(--rs))] sm:mx-6 sm:aspect-[21/9]" />
 
       <section className="container-x grid gap-12 py-24 lg:grid-cols-12 lg:py-32">
         <div className="lg:col-span-4">
@@ -78,7 +78,7 @@ export default async function ProjectPage({ params }: Props) {
       )}
 
       {next && next.id !== project.id && (
-        <Link href={`/work/${next.slug}`} className="group relative block overflow-hidden border-t border-white/[0.08]" data-cursor-label="Next">
+        <Link href={`/work/${next.slug}`} className="group relative block overflow-hidden border-t border-paper/[0.08]" data-cursor-label="Next">
           <div className="absolute inset-0 opacity-0 transition-opacity duration-1000 group-hover:opacity-40">
             <Img src={next.cover} alt="" className="h-full w-full scale-110 object-cover transition-transform duration-[2s] ease-expo group-hover:scale-100" />
           </div>
@@ -87,7 +87,7 @@ export default async function ProjectPage({ params }: Props) {
               <span className="eyebrow">Next project</span>
               <p className="display mt-4 text-[clamp(2.5rem,7vw,7rem)] transition-transform duration-700 ease-expo group-hover:translate-x-4">{next.title}</p>
             </div>
-            <span className="grid h-20 w-20 shrink-0 place-items-center rounded-full border border-white/20 transition-all duration-700 ease-expo group-hover:rotate-45 group-hover:border-accent group-hover:bg-accent group-hover:text-black">
+            <span className="grid h-20 w-20 shrink-0 place-items-center rounded-full border border-paper/20 transition-all duration-700 ease-expo group-hover:rotate-45 group-hover:border-accent group-hover:bg-accent group-hover:text-on-accent">
               <ArrowUpRight className="h-7 w-7" />
             </span>
           </div>

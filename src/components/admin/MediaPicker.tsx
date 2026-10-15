@@ -61,17 +61,17 @@ export default function MediaPicker({ open, onClose, onSelect, multiple = false 
   const images = items.filter((m) => m.mime.startsWith("image/") || m.mime.startsWith("video/"));
 
   return createPortal(
-    <div className="fixed inset-0 z-[150] flex items-center justify-center p-4" data-lenis-prevent>
+    <div className="on-dark fixed inset-0 z-[150] flex items-center justify-center p-4" data-lenis-prevent>
       <div className="absolute inset-0 bg-black/70 backdrop-blur-sm" onClick={onClose} />
-      <div className="relative flex max-h-[88vh] w-full max-w-4xl flex-col overflow-hidden rounded-3xl border border-white/10 bg-[#121215] shadow-2xl">
-        <div className="flex items-center justify-between border-b border-white/[0.07] px-6 py-4">
+      <div className="relative flex max-h-[88vh] w-full max-w-4xl flex-col overflow-hidden rounded-3xl border border-paper/10 bg-[#121215] shadow-2xl">
+        <div className="flex items-center justify-between border-b border-paper/[0.07] px-6 py-4">
           <h3 className="font-semibold">Choose {multiple ? "images" : "an image"}</h3>
-          <button onClick={onClose} className="grid h-9 w-9 place-items-center rounded-lg hover:bg-white/10" aria-label="Close">
+          <button onClick={onClose} className="grid h-9 w-9 place-items-center rounded-lg hover:bg-paper/10" aria-label="Close">
             <X className="h-4 w-4" />
           </button>
         </div>
-        <div className="flex flex-wrap items-center gap-3 border-b border-white/[0.07] px-6 py-4">
-          <button onClick={() => fileRef.current?.click()} className="inline-flex items-center gap-2 rounded-xl bg-accent px-4 py-2.5 text-sm font-medium text-black">
+        <div className="flex flex-wrap items-center gap-3 border-b border-paper/[0.07] px-6 py-4">
+          <button onClick={() => fileRef.current?.click()} className="inline-flex items-center gap-2 rounded-xl bg-accent px-4 py-2.5 text-sm font-medium text-on-accent">
             {uploading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Upload className="h-4 w-4" />} Upload
           </button>
           <input
@@ -89,7 +89,7 @@ export default function MediaPicker({ open, onClose, onSelect, multiple = false 
               }
             }}
           />
-          <div className="flex min-w-[240px] flex-1 items-center gap-2 rounded-xl border border-white/10 bg-white/[0.03] px-3">
+          <div className="flex min-w-[240px] flex-1 items-center gap-2 rounded-xl border border-paper/10 bg-paper/[0.03] px-3">
             <Link2 className="h-4 w-4 text-muted" />
             <input value={url} onChange={(e) => setUrl(e.target.value)} placeholder="…or paste an image URL" className="w-full bg-transparent py-2.5 text-sm outline-none" />
             <button
@@ -117,10 +117,10 @@ export default function MediaPicker({ open, onClose, onSelect, multiple = false 
               {images.map((m) => {
                 const sel = selected.includes(m.url);
                 return (
-                  <button key={m.id} onClick={() => toggle(m.url)} className={cn("relative aspect-square overflow-hidden rounded-xl border-2 bg-white/5", sel ? "border-accent" : "border-transparent")}>
+                  <button key={m.id} onClick={() => toggle(m.url)} className={cn("relative aspect-square overflow-hidden rounded-xl border-2 bg-paper/5", sel ? "border-accent" : "border-transparent")}>
                     {m.mime.startsWith("video/") ? <video src={m.url} className="h-full w-full object-cover" muted /> : <img src={m.url} alt={m.alt} className="h-full w-full object-cover" />}
                     {sel && (
-                      <span className="absolute right-2 top-2 grid h-6 w-6 place-items-center rounded-full bg-accent text-black">
+                      <span className="absolute right-2 top-2 grid h-6 w-6 place-items-center rounded-full bg-accent text-on-accent">
                         <Check className="h-3.5 w-3.5" />
                       </span>
                     )}
@@ -130,7 +130,7 @@ export default function MediaPicker({ open, onClose, onSelect, multiple = false 
             </div>
           )}
         </div>
-        <div className="flex items-center justify-end gap-3 border-t border-white/[0.07] px-6 py-4">
+        <div className="flex items-center justify-end gap-3 border-t border-paper/[0.07] px-6 py-4">
           <button onClick={onClose} className="rounded-xl px-4 py-2.5 text-sm text-muted hover:text-paper">
             Cancel
           </button>
@@ -140,7 +140,7 @@ export default function MediaPicker({ open, onClose, onSelect, multiple = false 
               onSelect(selected);
               onClose();
             }}
-            className="rounded-xl bg-paper px-5 py-2.5 text-sm font-medium text-black disabled:opacity-40"
+            className="rounded-xl bg-paper px-5 py-2.5 text-sm font-medium text-ink disabled:opacity-40"
           >
             Insert {selected.length > 1 ? `${selected.length} images` : ""}
           </button>

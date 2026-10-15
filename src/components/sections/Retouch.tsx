@@ -42,7 +42,7 @@ export default function Retouch({ title, subtitle, before, after, index }: { tit
         <SectionHeading eyebrow="Post-production" title={title} subtitle={subtitle} index={index} />
         <div
           ref={box}
-          className="relative mt-14 aspect-[4/5] touch-pan-y select-none overflow-hidden rounded-[28px] sm:aspect-[16/9]"
+          className="on-dark relative mt-14 aspect-[4/5] touch-pan-y select-none overflow-hidden rounded-[calc(28px*var(--rs))] sm:aspect-[16/9]"
           onPointerDown={(e) => {
             (e.target as HTMLElement).setPointerCapture?.(e.pointerId);
             move(e.clientX);
@@ -57,7 +57,7 @@ export default function Retouch({ title, subtitle, before, after, index }: { tit
             <Img src={before || after} alt="RAW" className="h-full w-full object-cover" style={before ? undefined : { filter: RAW_FILTER }} />
           </motion.div>
           <span className="absolute left-5 top-5 rounded-full bg-black/40 px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.2em] backdrop-blur-md">RAW · Unedited</span>
-          <span className="absolute right-5 top-5 rounded-full bg-accent px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.2em] text-black">Graded · Final</span>
+          <span className="absolute right-5 top-5 rounded-full bg-accent px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.2em] text-on-accent">Graded · Final</span>
           <motion.div className="absolute inset-y-0 w-px -translate-x-1/2 bg-white" style={{ left }}>
             <span className="absolute left-1/2 top-1/2 grid h-14 w-14 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full bg-white text-black shadow-2xl">
               <MoveHorizontal className="h-5 w-5" />

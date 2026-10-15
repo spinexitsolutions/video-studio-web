@@ -3,6 +3,7 @@ const nextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
   images: { unoptimized: true },
+  serverExternalPackages: ["sharp", "archiver", "nodemailer"],
   experimental: {
     serverActions: { bodySizeLimit: "25mb" },
   },

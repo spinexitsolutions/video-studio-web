@@ -1,6 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { UPLOAD_DIR } from "@/lib/db";
+import { renderImage } from "@/lib/images";
 
 export const runtime = "nodejs";
 
@@ -21,6 +22,17 @@ export async function GET(req: Request, { params }: { params: Promise<{ path: st
   const name = path.basename(parts.join("/"));
   const file = path.join(UPLOAD_DIR, name);
   if (!file.startsWith(UPLOAD_DIR) || !fs.existsSync(file)) return new Response("Not found", { status: 404 });
+
+  // On-the-fly responsive sizes: /media/photo.webp?w=800
+  const w = Number(new URL(req.url).searchParams.get("w"));
+  if (w > 0 && /\.(jpe?g|png|webp|avif)$/i.test(name)) {
+    try {
+      const buf = await renderImage(`/media/${name}`, w);
+      return new Response(new Uint8Array(buf), { headers: { "Content-Type": "image/webp", "Cache-Control": "public, max-age=31536000, immutable" } });
+    } catch {
+      /* fall through to the original */
+    }
+  }
 
   const stat = fs.statSync(file);
   const type = TYPES[name.split(".").pop()?.toLowerCase() || ""] || "application/octet-stream";

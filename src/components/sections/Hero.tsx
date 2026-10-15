@@ -90,7 +90,7 @@ export default function Hero({ hero }: { hero: HeroData }) {
   return (
     <section
       ref={ref}
-      className="relative h-[100svh] min-h-[640px] w-full overflow-hidden"
+      className="on-dark relative h-[100svh] min-h-[640px] w-full overflow-hidden bg-ink"
       onPointerMove={(e) => {
         if (e.pointerType !== "mouse") return;
         const r = e.currentTarget.getBoundingClientRect();
@@ -139,7 +139,7 @@ export default function Hero({ hero }: { hero: HeroData }) {
               "bottom-6 left-6 border-b border-l",
               "bottom-6 right-6 border-b border-r",
             ].map((c) => (
-              <span key={c} className={`absolute h-10 w-10 border-white/70 ${c}`} />
+              <span key={c} className={`absolute h-10 w-10 border-paper/70 ${c}`} />
             ))}
             <div className="absolute left-20 top-[7.5rem] flex items-center gap-2">
               <span className="h-2 w-2 animate-blink rounded-full bg-red-500" /> REC <Timecode />
@@ -147,8 +147,8 @@ export default function Hero({ hero }: { hero: HeroData }) {
             <div className="absolute right-20 top-[7.5rem] flex items-center gap-4">
               <span>4K · 24P</span>
               <span className="flex items-center gap-1">
-                <span className="relative h-3 w-6 rounded-[3px] border border-white/80 p-[2px]">
-                  <span className="block h-full w-3/4 rounded-[1px] bg-white/80" />
+                <span className="relative h-3 w-6 rounded-[3px] border border-paper/80 p-[2px]">
+                  <span className="block h-full w-3/4 rounded-[1px] bg-paper/80" />
                 </span>
               </span>
             </div>
@@ -167,13 +167,13 @@ export default function Hero({ hero }: { hero: HeroData }) {
             {/* exposure scale */}
             <div className="absolute bottom-[4.4rem] left-1/2 hidden -translate-x-1/2 items-end gap-[7px] lg:flex">
               {Array.from({ length: 25 }).map((_, i) => (
-                <span key={i} className={`w-px bg-white/70 ${i % 4 === 0 ? "h-3" : "h-1.5"} ${i === 12 ? "!h-4 !bg-accent" : ""}`} />
+                <span key={i} className={`w-px bg-paper/70 ${i % 4 === 0 ? "h-3" : "h-1.5"} ${i === 12 ? "!h-4 !bg-accent" : ""}`} />
               ))}
             </div>
             {/* autofocus */}
             <motion.div className="absolute left-1/2 top-1/2" style={{ x: sfx, y: sfy }}>
               <motion.div
-                className={`-translate-x-1/2 -translate-y-1/2 border transition-colors duration-300 ${locked ? "border-accent" : "border-white/70"}`}
+                className={`-translate-x-1/2 -translate-y-1/2 border transition-colors duration-300 ${locked ? "border-accent" : "border-paper/70"}`}
                 animate={{ width: locked ? 74 : 110, height: locked ? 56 : 84 }}
                 transition={{ type: "spring", stiffness: 260, damping: 14 }}
               >
@@ -233,7 +233,7 @@ export default function Hero({ hero }: { hero: HeroData }) {
           <div className="mt-12 flex gap-2">
             {slides.map((_, i) => (
               <button key={i} onClick={() => setSlide(i)} className="group h-6 flex-1 sm:max-w-[80px]" aria-label={`Show slide ${i + 1}`}>
-                <span className="block h-[2px] w-full overflow-hidden rounded bg-white/20">
+                <span className="block h-[2px] w-full overflow-hidden rounded bg-paper/20">
                   {i === slide ? (
                     <motion.span key={slide} className="block h-full bg-white" initial={{ width: "0%" }} animate={{ width: "100%" }} transition={{ duration: SLIDE_MS / 1000, ease: "linear" }} />
                   ) : (
@@ -252,7 +252,7 @@ export default function Hero({ hero }: { hero: HeroData }) {
         animate={{ opacity: ready ? 1 : 0 }}
         transition={{ delay: 1.6 }}
       >
-        <span className="relative block h-10 w-px overflow-hidden bg-white/20">
+        <span className="relative block h-10 w-px overflow-hidden bg-paper/20">
           <motion.span className="absolute left-0 top-0 block h-1/2 w-full bg-white" animate={{ y: ["-100%", "200%"] }} transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }} />
         </span>
       </motion.div>

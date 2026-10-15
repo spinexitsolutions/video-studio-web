@@ -21,6 +21,7 @@ export default function HomePage() {
   const settings = getSingleton("settings");
   const hero = getSingleton("hero");
   const home = getSingleton("home");
+  const theme = getSingleton("theme");
   const pub = { published: true } as const;
 
   const projects = listDocs<Project>("projects", pub);
@@ -30,7 +31,7 @@ export default function HomePage() {
     manifesto: () => home.manifesto && <Manifesto text={home.manifesto} />,
     camera: () => {
       const features = listDocs<CameraFeature>("cameraFeatures", pub);
-      return features.length > 0 && <CameraStory home={home} features={features} accent={settings.accentColor} />;
+      return features.length > 0 && <CameraStory home={home} features={features} accent={theme.accent} mode={theme.cameraMode} fallbackImage={theme.cameraFallbackImage} />;
     },
     clients: () => <Clients clients={listDocs<Client>("clients", pub)} />,
     services: (n) => <Services index={n} services={listDocs<Service>("services", pub)} eyebrow={home.servicesEyebrow} title={home.servicesTitle} />,

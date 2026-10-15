@@ -2,10 +2,36 @@
 @tailwind components;
 @tailwind utilities;
 
+:root,
+.on-dark {
+  --ink: 5 5 6;
+  --ink-50: 11 11 13;
+  --ink-100: 17 17 20;
+  --ink-200: 24 24 28;
+  --ink-300: 34 34 40;
+  --ink-400: 46 46 54;
+  --paper: 245 245 247;
+  --paper-dim: 210 210 215;
+  --muted: 134 134 139;
+}
 :root {
   --accent: #ff7a45;
   --accent-rgb: 255 122 69;
-  --radius: 22px;
+  --on-accent: 0 0 0;
+  --rs: 1;
+  --btn-radius: 9999px;
+  --radius: calc(22px * var(--rs));
+  --font-sans: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-display: var(--font-sans);
+  --font-serif: "Instrument Serif", "New York", Georgia, serif;
+  color-scheme: dark;
+}
+:root[data-theme="light"] {
+  color-scheme: light;
+}
+/* Sections that sit on photos/video always use light-on-dark colours, whatever the theme. */
+.on-dark {
+  color: rgb(var(--paper));
   color-scheme: dark;
 }
 
@@ -14,7 +40,7 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
-    background: #050506;
+    background: rgb(var(--ink));
   }
   body {
     @apply bg-ink text-paper font-sans;
@@ -22,7 +48,7 @@
   }
   ::selection {
     background: rgb(var(--accent-rgb) / 0.9);
-    color: #000;
+    color: rgb(var(--on-accent));
   }
   img {
     user-select: none;
@@ -57,37 +83,37 @@ html.lenis body {
     @apply inline-block h-1.5 w-1.5 rounded-full bg-accent;
   }
   .display {
-    @apply font-semibold tracking-tightest leading-[0.92];
+    @apply font-display font-semibold tracking-tightest leading-[0.92];
   }
   .serif-i {
     @apply font-serif font-normal italic tracking-normal;
   }
   .glass {
-    background: rgba(22, 22, 26, 0.55);
+    background: rgb(var(--ink-100) / 0.6);
     backdrop-filter: saturate(180%) blur(20px);
     -webkit-backdrop-filter: saturate(180%) blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    border: 1px solid rgb(var(--paper) / 0.08);
   }
   .hairline {
-    border-color: rgba(255, 255, 255, 0.08);
+    border-color: rgb(var(--paper) / 0.08);
   }
   .btn {
-    @apply relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-full px-6 py-3.5 text-[15px] font-medium transition-all duration-500 ease-expo;
+    @apply relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-[var(--btn-radius)] px-6 py-3.5 text-[15px] font-medium transition-all duration-500 ease-expo;
   }
   .btn-primary {
-    @apply btn bg-paper text-ink hover:bg-white;
+    @apply btn bg-paper text-ink hover:opacity-90;
   }
   .btn-accent {
-    @apply btn bg-accent text-black hover:brightness-110;
+    @apply btn bg-accent text-on-accent hover:brightness-110;
   }
   .btn-ghost {
-    @apply btn border border-white/15 text-paper hover:border-white/40 hover:bg-white/5;
+    @apply btn border border-paper/15 text-paper hover:border-paper/40 hover:bg-paper/5;
   }
   .card {
-    @apply rounded-[var(--radius)] border border-white/[0.07] bg-ink-100;
+    @apply rounded-[var(--radius)] border border-paper/[0.07] bg-ink-100;
   }
   .text-gradient {
-    background: linear-gradient(180deg, #fff 0%, rgba(255, 255, 255, 0.55) 100%);
+    background: linear-gradient(180deg, rgb(var(--paper)) 0%, rgb(var(--paper) / 0.55) 100%);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
@@ -99,11 +125,6 @@ html.lenis body {
     background-clip: text;
     color: transparent;
     animation: shine 5s linear infinite;
-  }
-  .film-edge {
-    background-image: repeating-linear-gradient(90deg, transparent 0 14px, rgba(255, 255, 255, 0.85) 14px 24px, transparent 24px 34px);
-    background-size: 34px 8px;
-    background-repeat: repeat-x;
   }
   .prose-studio {
     @apply text-[17px] leading-[1.75] text-paper/80;
@@ -178,5 +199,24 @@ html.lenis body {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+  }
+}
+
+/* Optional image protection (toggled from Integrations) */
+.protect-images img {
+  -webkit-touch-callout: none;
+  pointer-events: auto;
+}
+
+@media print {
+  .no-print,
+  header,
+  footer,
+  .grain {
+    display: none !important;
+  }
+  body {
+    background: #fff !important;
+    color: #000 !important;
   }
 }

@@ -17,7 +17,7 @@ export function PostCard({ post, i = 0 }: { post: Post; i?: number }) {
       transition={{ duration: 1, delay: (i % 3) * 0.1, ease: [0.16, 1, 0.3, 1] }}
     >
       <Link href={`/journal/${post.slug}`} className="group block" data-cursor-label="Read">
-        <div className="relative aspect-[4/3] overflow-hidden rounded-[24px] bg-ink-200">
+        <div className="relative aspect-[4/3] overflow-hidden rounded-[calc(24px*var(--rs))] bg-ink-200">
           <Img src={post.cover} alt={post.title} className="h-full w-full object-cover transition-transform duration-[1.4s] ease-expo group-hover:scale-105" />
         </div>
         <div className="mt-5 flex items-center gap-3 text-xs text-muted">

@@ -14,7 +14,7 @@ export default function JournalList({ posts }: { posts: Post[] }) {
     <section className="container-x pb-32">
       <div className="mb-12 flex flex-wrap gap-2">
         {tags.map((t) => (
-          <button key={t} onClick={() => setTag(t)} className={cn("relative rounded-full border px-4 py-2 text-sm transition", tag === t ? "border-transparent text-black" : "border-white/10 text-paper/70 hover:text-paper")}>
+          <button key={t} onClick={() => setTag(t)} className={cn("relative rounded-full border px-4 py-2 text-sm transition", tag === t ? "border-transparent text-ink" : "border-paper/10 text-paper/70 hover:text-paper")}>
             {tag === t && <motion.span layoutId="journal-tag" className="absolute inset-0 rounded-full bg-paper" />}
             <span className="relative">{t}</span>
           </button>

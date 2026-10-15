@@ -12,7 +12,9 @@ export default function DocForm({
   onSave,
   saveLabel = "Save changes",
   extraActions,
+  readOnly,
 }: {
+  readOnly?: boolean;
   groups: FieldGroup[];
   initial: Record<string, any>;
   onSave: (data: Record<string, any>) => Promise<void>;
@@ -73,8 +75,8 @@ export default function DocForm({
       className="space-y-6 pb-24"
     >
       {groups.map((g) => (
-        <section key={g.title} className="rounded-2xl border border-white/[0.07] bg-[#111114]">
-          <div className="border-b border-white/[0.06] px-6 py-4">
+        <section key={g.title} className="rounded-2xl border border-paper/[0.07] bg-[#111114]">
+          <div className="border-b border-paper/[0.06] px-6 py-4">
             <h2 className="text-[15px] font-semibold">{g.title}</h2>
             {g.description && <p className="mt-0.5 text-xs text-muted">{g.description}</p>}
           </div>
@@ -93,7 +95,7 @@ export default function DocForm({
         </section>
       ))}
 
-      <div className="fixed inset-x-0 bottom-0 z-30 border-t border-white/[0.06] bg-[#0a0a0c]/85 backdrop-blur-xl lg:left-64">
+      {!readOnly && <div className="fixed inset-x-0 bottom-0 z-30 border-t border-paper/[0.06] bg-[#0a0a0c]/85 backdrop-blur-xl lg:left-64">
         <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-3 sm:px-8">
           <span className={cn("flex items-center gap-2 text-sm", dirty ? "text-amber-300" : "text-muted")}>
             <span className={cn("h-2 w-2 rounded-full", dirty ? "bg-amber-300" : "bg-emerald-400")} />
@@ -102,13 +104,13 @@ export default function DocForm({
           </span>
           <div className="flex items-center gap-2">
             {extraActions}
-            <button type="submit" disabled={saving} className="inline-flex items-center gap-2 rounded-xl bg-accent px-5 py-2.5 text-sm font-semibold text-black transition hover:brightness-110 disabled:opacity-60">
+            <button type="submit" disabled={saving} className="inline-flex items-center gap-2 rounded-xl bg-accent px-5 py-2.5 text-sm font-semibold text-on-accent transition hover:brightness-110 disabled:opacity-60">
               {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />}
               {saveLabel}
             </button>
           </div>
         </div>
-      </div>
+      </div>}
     </form>
   );
 }

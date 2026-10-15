@@ -23,16 +23,16 @@ export default function SubscribersPage() {
             navigator.clipboard.writeText((items || []).map((s) => s.email).join(", "));
             toast("Emails copied to clipboard");
           }}
-          className="inline-flex items-center gap-2 rounded-xl border border-white/10 px-4 py-2.5 text-sm hover:border-white/30"
+          className="inline-flex items-center gap-2 rounded-xl border border-paper/10 px-4 py-2.5 text-sm hover:border-paper/30"
         >
           <Copy className="h-4 w-4" /> Copy all
         </button>
-        <button onClick={() => downloadCsv("subscribers.csv", items || [], ["email", "createdAt"])} className="inline-flex items-center gap-2 rounded-xl border border-white/10 px-4 py-2.5 text-sm hover:border-white/30">
+        <button onClick={() => downloadCsv("subscribers.csv", items || [], ["email", "createdAt"])} className="inline-flex items-center gap-2 rounded-xl border border-paper/10 px-4 py-2.5 text-sm hover:border-paper/30">
           <Download className="h-4 w-4" /> Export CSV
         </button>
       </PageTitle>
-      <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Search emails…" className="mb-4 w-full rounded-xl border border-white/10 bg-white/[0.03] px-4 py-2.5 text-sm outline-none focus:border-accent/70" />
-      <div className="overflow-hidden rounded-2xl border border-white/[0.07] bg-[#111114]">
+      <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Search emails…" className="mb-4 w-full rounded-xl border border-paper/10 bg-paper/[0.03] px-4 py-2.5 text-sm outline-none focus:border-accent/70" />
+      <div className="overflow-hidden rounded-2xl border border-paper/[0.07] bg-[#111114]">
         {!items ? (
           <div className="grid h-40 place-items-center text-muted">
             <Loader2 className="h-5 w-5 animate-spin" />
@@ -45,10 +45,10 @@ export default function SubscribersPage() {
             </div>
           </div>
         ) : (
-          <ul className="divide-y divide-white/[0.05]">
+          <ul className="divide-y divide-paper/[0.05]">
             {list.map((s) => (
               <li key={s.id} className="flex items-center gap-4 px-5 py-3">
-                <span className="grid h-8 w-8 place-items-center rounded-full bg-white/[0.06] text-xs">{s.email[0].toUpperCase()}</span>
+                <span className="grid h-8 w-8 place-items-center rounded-full bg-paper/[0.06] text-xs">{s.email[0].toUpperCase()}</span>
                 <a href={`mailto:${s.email}`} className="flex-1 truncate text-sm hover:text-accent">
                   {s.email}
                 </a>

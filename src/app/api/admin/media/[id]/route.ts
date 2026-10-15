@@ -22,7 +22,9 @@ export async function DELETE(_req: Request, { params }: Ctx) {
   const { id } = await params;
   const doc = getDoc<Media>("media", id);
   if (!doc) return bad("Not found", 404);
-  await fs.rm(path.join(UPLOAD_DIR, path.basename(doc.filename)), { force: true });
+  if (doc.provider !== "cloudinary") {
+    for (const u of [doc.url, doc.original]) if (u?.startsWith("/media/")) await fs.rm(path.join(UPLOAD_DIR, path.basename(u)), { force: true });
+  }
   await deleteDoc("media", id);
   return json({ ok: true });
 }

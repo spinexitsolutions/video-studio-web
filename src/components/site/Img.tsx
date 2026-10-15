@@ -2,9 +2,10 @@
 
 import { useState, type ImgHTMLAttributes } from "react";
 import { cn } from "@/lib/utils";
+import { sized, srcSet } from "@/lib/img-url";
 
-/** <img> with lazy loading, a soft fade-in and a graceful placeholder if the image fails. */
-export default function Img({ src, alt = "", className, onLoad, ...rest }: ImgHTMLAttributes<HTMLImageElement>) {
+/** Responsive <img> (auto srcset for Cloudinary, Unsplash & uploads), lazy loaded with a fade-in and a graceful fallback. */
+export default function Img({ src, alt = "", className, onLoad, sizes = "100vw", ...rest }: ImgHTMLAttributes<HTMLImageElement>) {
   const [state, setState] = useState<"loading" | "ok" | "error">("loading");
   if (!src || state === "error") {
     return (
@@ -22,7 +23,9 @@ export default function Img({ src, alt = "", className, onLoad, ...rest }: ImgHT
   }
   return (
     <img
-      src={src as string}
+      src={sized(src as string, 1600)}
+      srcSet={srcSet(src as string)}
+      sizes={sizes}
       alt={alt}
       loading="lazy"
       decoding="async"

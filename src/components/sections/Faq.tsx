@@ -24,10 +24,10 @@ export default function Faq({ faqs, title, index }: { faqs: FaqT[]; title: strin
           {faqs.map((f) => {
             const isOpen = open === f.id;
             return (
-              <div key={f.id} className="border-b border-white/[0.08]">
+              <div key={f.id} className="border-b border-paper/[0.08]">
                 <button onClick={() => setOpen(isOpen ? null : f.id)} className="flex w-full items-center justify-between gap-6 py-7 text-left" aria-expanded={isOpen}>
                   <span className={`text-xl font-medium tracking-tight transition-colors sm:text-2xl ${isOpen ? "text-paper" : "text-paper/75"}`}>{f.question}</span>
-                  <motion.span animate={{ rotate: isOpen ? 45 : 0 }} transition={{ duration: 0.4 }} className={`grid h-10 w-10 shrink-0 place-items-center rounded-full border transition-colors ${isOpen ? "border-accent bg-accent text-black" : "border-white/15"}`}>
+                  <motion.span animate={{ rotate: isOpen ? 45 : 0 }} transition={{ duration: 0.4 }} className={`grid h-10 w-10 shrink-0 place-items-center rounded-full border transition-colors ${isOpen ? "border-accent bg-accent text-on-accent" : "border-paper/15"}`}>
                     <Plus className="h-4 w-4" />
                   </motion.span>
                 </button>

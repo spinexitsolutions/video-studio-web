@@ -19,7 +19,7 @@ export default function VideoModal({ url, open, onClose }: { url: string; open: 
     <AnimatePresence>
       {open && video && (
         <motion.div
-          className="fixed inset-0 z-[95] flex items-center justify-center bg-black/90 p-4 backdrop-blur-xl"
+          className="on-dark fixed inset-0 z-[95] flex items-center justify-center bg-black/90 p-4 backdrop-blur-xl"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
@@ -40,7 +40,7 @@ export default function VideoModal({ url, open, onClose }: { url: string; open: 
               <iframe src={video.src} className="h-full w-full" allow="autoplay; fullscreen; picture-in-picture" allowFullScreen title="Video" />
             )}
           </motion.div>
-          <button onClick={onClose} aria-label="Close" className="absolute right-5 top-5 grid h-12 w-12 place-items-center rounded-full bg-white/10 text-white hover:bg-white/20">
+          <button onClick={onClose} aria-label="Close" className="absolute right-5 top-5 grid h-12 w-12 place-items-center rounded-full bg-paper/10 text-white hover:bg-paper/20">
             <X className="h-5 w-5" />
           </button>
         </motion.div>

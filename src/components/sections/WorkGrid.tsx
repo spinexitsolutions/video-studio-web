@@ -21,7 +21,7 @@ export default function WorkGrid({ projects }: { projects: Project[] }) {
       <div className="sticky top-24 z-20 -mx-2 mb-12 flex flex-wrap items-center justify-between gap-4 py-3">
         <div className="glass flex max-w-full gap-1 overflow-x-auto rounded-full p-1.5 no-scrollbar">
           {categories.map((c) => (
-            <button key={c} onClick={() => setCat(c)} className={cn("relative shrink-0 rounded-full px-4 py-2 text-sm transition-colors", cat === c ? "text-black" : "text-paper/70 hover:text-paper")}>
+            <button key={c} onClick={() => setCat(c)} className={cn("relative shrink-0 rounded-full px-4 py-2 text-sm transition-colors", cat === c ? "text-ink" : "text-paper/70 hover:text-paper")}>
               {cat === c && <motion.span layoutId="work-cat" className="absolute inset-0 rounded-full bg-paper" transition={{ type: "spring", stiffness: 400, damping: 35 }} />}
               <span className="relative">{c}</span>
             </button>
@@ -29,7 +29,7 @@ export default function WorkGrid({ projects }: { projects: Project[] }) {
         </div>
         <div className="glass flex gap-1 rounded-full p-1.5">
           {(["all", "photo", "video"] as const).map((k) => (
-            <button key={k} onClick={() => setKind(k)} className={cn("relative rounded-full px-4 py-2 text-sm capitalize transition-colors", kind === k ? "text-black" : "text-paper/70 hover:text-paper")}>
+            <button key={k} onClick={() => setKind(k)} className={cn("relative rounded-full px-4 py-2 text-sm capitalize transition-colors", kind === k ? "text-on-accent" : "text-paper/70 hover:text-paper")}>
               {kind === k && <motion.span layoutId="work-kind" className="absolute inset-0 rounded-full bg-accent" transition={{ type: "spring", stiffness: 400, damping: 35 }} />}
               <span className="relative">{k === "all" ? "Everything" : k === "photo" ? "Photo" : "Film"}</span>
             </button>
@@ -50,11 +50,11 @@ export default function WorkGrid({ projects }: { projects: Project[] }) {
               className="mb-5 break-inside-avoid"
             >
               <Link href={`/work/${p.slug}`} className="group block" data-cursor-label={p.kind === "video" ? "Play" : "View"}>
-                <div className={cn("relative overflow-hidden rounded-[22px] bg-ink-200", RATIOS[i % RATIOS.length])}>
+                <div className={cn("relative overflow-hidden rounded-[calc(22px*var(--rs))] bg-ink-200", RATIOS[i % RATIOS.length])}>
                   <Img src={p.cover} alt={p.title} className="h-full w-full object-cover transition-transform duration-[1.4s] ease-expo group-hover:scale-[1.06]" />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-transparent to-transparent opacity-0 transition-opacity duration-700 group-hover:opacity-100" />
                   {p.kind === "video" && (
-                    <span className="absolute left-4 top-4 flex items-center gap-1.5 rounded-full bg-black/40 px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.15em] backdrop-blur-md">
+                    <span className="absolute left-4 top-4 flex items-center gap-1.5 rounded-full bg-black/40 text-white px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.15em] backdrop-blur-md">
                       <Play className="h-3 w-3 fill-current" /> Film
                     </span>
                   )}
