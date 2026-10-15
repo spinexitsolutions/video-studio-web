@@ -1,0 +1,12 @@
+node_modules
+.next
+out
+*.tsbuildinfo
+next-env.d.ts
+.env
+.env.local
+# runtime CMS data (database + uploaded media)
+data/db.json
+data/uploads/*
+!data/uploads/.gitkeep
+.DS_Store

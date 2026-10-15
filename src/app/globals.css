@@ -1,0 +1,182 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --accent: #ff7a45;
+  --accent-rgb: 255 122 69;
+  --radius: 22px;
+  color-scheme: dark;
+}
+
+@layer base {
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    background: #050506;
+  }
+  body {
+    @apply bg-ink text-paper font-sans;
+    font-feature-settings: "ss01", "cv11";
+  }
+  ::selection {
+    background: rgb(var(--accent-rgb) / 0.9);
+    color: #000;
+  }
+  img {
+    user-select: none;
+    -webkit-user-drag: none;
+  }
+}
+
+/* Lenis smooth scroll */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+@layer components {
+  .container-x {
+    @apply mx-auto w-full max-w-[1440px] px-5 sm:px-8 lg:px-12;
+  }
+  .eyebrow {
+    @apply inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.22em] text-muted;
+  }
+  .eyebrow::before {
+    content: "";
+    @apply inline-block h-1.5 w-1.5 rounded-full bg-accent;
+  }
+  .display {
+    @apply font-semibold tracking-tightest leading-[0.92];
+  }
+  .serif-i {
+    @apply font-serif font-normal italic tracking-normal;
+  }
+  .glass {
+    background: rgba(22, 22, 26, 0.55);
+    backdrop-filter: saturate(180%) blur(20px);
+    -webkit-backdrop-filter: saturate(180%) blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+  }
+  .hairline {
+    border-color: rgba(255, 255, 255, 0.08);
+  }
+  .btn {
+    @apply relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-full px-6 py-3.5 text-[15px] font-medium transition-all duration-500 ease-expo;
+  }
+  .btn-primary {
+    @apply btn bg-paper text-ink hover:bg-white;
+  }
+  .btn-accent {
+    @apply btn bg-accent text-black hover:brightness-110;
+  }
+  .btn-ghost {
+    @apply btn border border-white/15 text-paper hover:border-white/40 hover:bg-white/5;
+  }
+  .card {
+    @apply rounded-[var(--radius)] border border-white/[0.07] bg-ink-100;
+  }
+  .text-gradient {
+    background: linear-gradient(180deg, #fff 0%, rgba(255, 255, 255, 0.55) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .text-shine {
+    background: linear-gradient(110deg, #86868b 35%, #fff 50%, #86868b 65%);
+    background-size: 250% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: shine 5s linear infinite;
+  }
+  .film-edge {
+    background-image: repeating-linear-gradient(90deg, transparent 0 14px, rgba(255, 255, 255, 0.85) 14px 24px, transparent 24px 34px);
+    background-size: 34px 8px;
+    background-repeat: repeat-x;
+  }
+  .prose-studio {
+    @apply text-[17px] leading-[1.75] text-paper/80;
+  }
+  .prose-studio h2 {
+    @apply mb-4 mt-12 text-3xl font-semibold tracking-tight text-paper;
+  }
+  .prose-studio h3 {
+    @apply mb-3 mt-8 text-2xl font-semibold tracking-tight text-paper;
+  }
+  .prose-studio p {
+    @apply my-5;
+  }
+  .prose-studio a {
+    @apply text-accent underline underline-offset-4;
+  }
+  .prose-studio ul {
+    @apply my-5 list-disc space-y-2 pl-6;
+  }
+  .prose-studio ol {
+    @apply my-5 list-decimal space-y-2 pl-6;
+  }
+  .prose-studio blockquote {
+    @apply my-8 border-l-2 border-accent pl-6 font-serif text-3xl italic leading-snug text-paper;
+  }
+  .prose-studio em {
+    @apply font-serif text-[1.15em] italic text-paper;
+  }
+  .prose-studio img {
+    @apply my-8 rounded-2xl;
+  }
+  .prose-studio strong {
+    @apply text-paper;
+  }
+}
+
+@keyframes shine {
+  to {
+    background-position: -150% 0;
+  }
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  scrollbar-width: none;
+}
+
+.grain {
+  pointer-events: none;
+  position: fixed;
+  inset: -50%;
+  z-index: 60;
+  width: 200%;
+  height: 200%;
+  opacity: 0.06;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .custom-cursor,
+  .custom-cursor * {
+    cursor: none !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
