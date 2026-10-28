@@ -8,6 +8,7 @@ next-env.d.ts
 # runtime CMS data (database + uploaded media)
 data/db.json
 data/uploads/*
+data/cache/
 !data/uploads/.gitkeep
 .DS_Store
 
