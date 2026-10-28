@@ -10,3 +10,6 @@ data/db.json
 data/uploads/*
 !data/uploads/.gitkeep
 .DS_Store
+
+# generated marketing videos (large binaries)
+showcase/*.mp4
